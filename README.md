@@ -1,12 +1,12 @@
-# Microsoft Graph Training Module - Build Office add-ins with Microsoft Graph
+# Microsoft Graph Training Module - Build Office Add-ins with Microsoft Graph
 
 This module will introduce you to working with Microsoft Graph to access data in Office 365 by building an Office add-in.
 
-## Lab - Build Office add-ins with Microsoft Graph
+## Lab - Build Office Add-ins with Microsoft Graph
 
-In this lab you will create an Office add-in for Excel that uses single sign-on to access data in Office 365 using Microsoft Graph.
+In this lab you will create an Office Add-in for Excel that uses single sign-on to access data in Office 365 using Microsoft Graph.
 
-- [Office add-in Microsoft Graph tutorial](https://docs.microsoft.com/graph/training/office-addin)
+- [Office Add-in Microsoft Graph tutorial](https://docs.microsoft.com/graph/training/office-addin)
 
 ## Completed sample
 

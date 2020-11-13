@@ -1,13 +1,13 @@
 <!-- markdownlint-disable MD002 MD041 -->
 
-This tutorial teaches you how to build an Office-addin for Excel that uses the Microsoft Graph API to retrieve calendar information for a user.
+This tutorial teaches you how to build an Office Add-in for Excel that uses the Microsoft Graph API to retrieve calendar information for a user.
 
 > [!TIP]
 > If you prefer to just download the completed tutorial, you can download or clone the [GitHub repository](https://github.com/microsoftgraph/msgraph-training-office-addin).
 
 ## Prerequisites
 
-Before you start this demo, you should have [Node.js](https://nodejs.org) installed on your development machine. If you do not have Node.js, visit the previous link for download options.
+Before you start this demo, you should have [Node.js](https://nodejs.org) and [Yarn](https://yarnpkg.com/) installed on your development machine. If you do not have Node.js or Yarn, visit the previous link for download options.
 
 > [!NOTE]
 > Windows users may need to install Python and Visual Studio Build Tools to support NPM modules that need to be compiled from C/C++. The Node.js installer on Windows gives an option to automatically install these tools. Alternatively, you can follow instructions at [https://github.com/nodejs/node-gyp#on-windows](https://github.com/nodejs/node-gyp#on-windows).

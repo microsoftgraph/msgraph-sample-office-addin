@@ -1,6 +1,9 @@
 <!-- markdownlint-disable MD002 MD041 -->
 
-In this exercise you will create an Office Add-in using [Express](http://expressjs.com/).
+In this exercise you will create an Office Add-in solution using [Express](http://expressjs.com/). The solution will consist of two parts.
+
+- The add-in, implemented as static HTML and JavaScript files.
+- A Node.js/Express server that serves the add-in and implements a web API to retrieve data for the add-in.
 
 ## Create the server
 
@@ -67,6 +70,36 @@ In this exercise you will create an Office Add-in using [Express](http://express
 
 1. Create two directories in the **./src** directory: **addin** and **api**.
 
+1. Create a new file named **auth.ts** in the **./src/api** directory and add the following code.
+
+    ```typescript
+    import Router from 'express-promise-router';
+
+    const authRouter = Router();
+
+    // TODO: Implement this router
+
+    export default authRouter;
+    ```
+
+1. Create a new file named **graph.ts** in the **./src/api** directory and add the following code.
+
+    ```typescript
+    import Router from 'express-promise-router';
+
+    const graphRouter = Router();
+
+    // TODO: Implement this router
+
+    export default graphRouter;
+    ```
+
+1. Create a new file named **server.ts** in the **./src** directory and add the following code.
+
+    :::code language="typescript" source="../demo/graph-tutorial/src/server.ts" id="ServerSnippet":::
+
+## Create the add-in
+
 1. Create a new file named **taskpane.html** in the **./src/addin** directory and add the following code.
 
     ```html
@@ -113,33 +146,13 @@ In this exercise you will create an Office Add-in using [Express](http://express
     > [!NOTE]
     > You can use any image you want for this step. You can also download the images used in this sample directly from [GitHub](https://github.com/microsoftgraph/msgraph-training-office-addin/demo/graph-tutorial/src/addin/assets).
 
-1. Create a new file named **auth.ts** in the **./src/api** directory and add the following code.
+1. Create a new directory in the root of the project named **manifest**.
 
-    ```typescript
-    import Router from 'express-promise-router';
+1. Create a new file named **manifest.xml** in the **./manifest** folder and add the following code.
 
-    const authRouter = Router();
+    :::code language="xml" source="../demo/graph-tutorial/manifest/manifest.xml":::
 
-    // TODO: Implement this router
-
-    export default authRouter;
-    ```
-
-1. Create a new file named **graph.ts** in the **./src/api** directory and add the following code.
-
-    ```typescript
-    import Router from 'express-promise-router';
-
-    const graphRouter = Router();
-
-    // TODO: Implement this router
-
-    export default graphRouter;
-    ```
-
-1. Create a new file named **server.ts** in the **./src** directory and add the following code.
-
-    :::code language="typescript" source="../demo/graph-tutorial/src/server.ts" id="ServerSnippet":::
+## Side-load the add-in in Excel
 
 1. Start the server by running the following command.
 
@@ -148,14 +161,6 @@ In this exercise you will create an Office Add-in using [Express](http://express
     ```
 
 1. Open your browser and browse to `https://localhost:3000/taskpane.html`. You should see a `Not loaded` message.
-
-## Side-load the add-in in Excel
-
-1. Create a new directory in the root of the project named **manifest**.
-
-1. Create a new file named **manifest.xml** in the **./manifest** folder and add the following code.
-
-    :::code language="xml" source="../demo/graph-tutorial/manifest/manifest.xml":::
 
 1. In your browser, go to [Office.com](https://www.office.com/) and sign in. Select **Create** in the left-hand toolbar, then select **Spreadsheet**.
 

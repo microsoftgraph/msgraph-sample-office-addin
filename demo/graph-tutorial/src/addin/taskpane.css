@@ -1,0 +1,14 @@
+.container {
+  margin: 10px;
+}
+
+.primary-button {
+  padding: .5em;
+  color: white;
+  background-color: #0078d4;
+  border: none;
+}
+
+.error-msg {
+  background-color: #fde7e9;
+}

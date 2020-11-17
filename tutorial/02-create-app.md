@@ -102,21 +102,11 @@ In this exercise you will create an Office Add-in solution using [Express](http:
 
 1. Create a new file named **taskpane.html** in the **./src/addin** directory and add the following code.
 
-    ```html
-    <!-- TEMPORARY PAGE TO VERIFY ADD-IN LOADS -->
-    <html>
-      <head>
-        <link rel="stylesheet"
-          href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/11.0.0/css/fabric.min.css"/>
-      </head>
-      <body class="ms-Fabric">
-        <p class="ms-fontSize-32" style="margin: 10px;">Not loaded</p>
-        <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.5.1.min.js"></script>
-        <script src="https://appsforoffice.microsoft.com/lib/beta/hosted/office.js"></script>
-        <script src="taskpane.js"></script>
-      </body>
-    </html>
-    ```
+    :::code language="html" source="../demo/graph-tutorial/src/addin/taskpane.html" id="TaskPaneHtmlSnippet":::
+
+1. Create a new file named **taskpane.css** in the **./src/addin** directory and add the following code.
+
+    :::code language="css" source="../demo/graph-tutorial/src/addin/taskpane.css":::
 
 1. Create a new file named **taskpane.js** in the **./src/addin** directory and add the following code.
 
@@ -148,7 +138,7 @@ In this exercise you will create an Office Add-in solution using [Express](http:
 
 1. Create a new directory in the root of the project named **manifest**.
 
-1. Create a new file named **manifest.xml** in the **./manifest** folder and add the following code.
+1. Create a new file named **manifest.xml** in the **./manifest** folder and add the following code. Replace `NEW_GUID_HERE` with a new GUID, like `b4fa03b8-1eb6-4e8b-a380-e0476be9e019`.
 
     :::code language="xml" source="../demo/graph-tutorial/manifest/manifest.xml":::
 

@@ -8,11 +8,11 @@ import fs from 'fs';
 import dotenv from 'dotenv';
 import path from 'path';
 
-import authRouter from './api/auth';
-import graphRouter from './api/graph';
-
 // Load .env file
 dotenv.config();
+
+import authRouter from './api/auth';
+import graphRouter from './api/graph';
 
 const app = express();
 const PORT = 3000;

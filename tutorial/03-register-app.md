@@ -17,7 +17,7 @@ Two registrations are needed to take advantage of [Office Add-in single sign-on 
 
     - Set **Name** to `Office Add-in Graph Tutorial`.
     - Set **Supported account types** to **Accounts in any organizational directory and personal Microsoft accounts**.
-    - Under **Redirect URI**, set the first drop-down to `Web` and set the value to `https://localhost:3000/auth/complete`.
+    - Under **Redirect URI**, set the first drop-down to `Single-page application (SPA)` and set the value to `https://localhost:3000/consent.html`.
 
     ![A screenshot of the Register an application page](images/register-an-app.png)
 
@@ -47,7 +47,7 @@ Two registrations are needed to take advantage of [Office Add-in single sign-on 
 
 In this section you'll update the app registration to support [Office Add-in single sign-on (SSO)](https://docs.microsoft.com/office/dev/add-ins/develop/sso-in-office-add-ins).
 
-1. Select **Expose an API**. In the **Scopes defined by this API** section, select **Add a scope**. When prompted to set an **Application ID URI**, accept the default and choose **Save and continue**.
+1. Select **Expose an API**. In the **Scopes defined by this API** section, select **Add a scope**. When prompted to set an **Application ID URI**, set the value to `api://localhost:3000/YOUR_APP_ID_HERE`, replacing `YOUR_APP_ID_HERE` with the application ID. Choose **Save and continue**.
 
 1. Fill in the fields as follows and select **Add scope**.
 

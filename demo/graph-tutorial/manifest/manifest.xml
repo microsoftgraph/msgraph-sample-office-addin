@@ -4,7 +4,7 @@
            xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
            xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides"
            xsi:type="TaskPaneApp">
-  <Id>bd38c12d-4497-45f3-8e5e-594676251e34</Id>
+  <Id>NEW_GUID_HERE</Id>
   <Version>1.0.0.0</Version>
   <ProviderName>Contoso</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
@@ -83,5 +83,14 @@
         <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Click to open the Import Calendar task pane"/>
       </bt:LongStrings>
     </Resources>
+    <WebApplicationInfo>
+      <Id>YOUR_APP_ID_HERE</Id>
+      <Resource>api://localhost:3000/YOUR_APP_ID_HERE</Resource>
+      <Scopes>
+        <Scope>openid</Scope>
+        <Scope>profile</Scope>
+        <Scope>access_as_user</Scope>
+      </Scopes>
+    </WebApplicationInfo>
   </VersionOverrides>
 </OfficeApp>

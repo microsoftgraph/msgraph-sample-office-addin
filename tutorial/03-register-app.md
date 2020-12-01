@@ -1,11 +1,6 @@
 <!-- markdownlint-disable MD002 MD041 -->
 
-In this exercise, you will create two Azure AD web application registrations using the Azure Active Directory admin center.
-
-- An app registration for the add-in
-- An app registration for the server
-
-Two registrations are needed to take advantage of [Office Add-in single sign-on (SSO)](https://docs.microsoft.com/office/dev/add-ins/develop/sso-in-office-add-ins) and the [on-behalf-of flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow).
+In this exercise, you will create a new Azure AD web application registration using the Azure Active Directory admin center.
 
 1. Open a browser and navigate to the [Azure Active Directory admin center](https://aad.portal.azure.com). Login using a **personal account** (aka: Microsoft Account) or **Work or School Account**.
 
@@ -13,7 +8,7 @@ Two registrations are needed to take advantage of [Office Add-in single sign-on 
 
     ![A screenshot of the App registrations ](images/app-registrations.png)
 
-1. Select **New registration**. On the **Register an application** page, set the values as follows, where `YOUR_NGROK_URL` is the ngrok forwarding URL you copied in the previous section.
+1. Select **New registration**. On the **Register an application** page, set the values as follows.
 
     - Set **Name** to `Office Add-in Graph Tutorial`.
     - Set **Supported account types** to **Accounts in any organizational directory and personal Microsoft accounts**.

@@ -22,7 +22,7 @@ function processConsent(result) {
     showMainUi();
   } else {
     const error = JSON.stringify(message.result, Object.getOwnPropertyNames(message.result));
-    showError(`An error was returned from the consent dialog: ${error}`);
+    showStatus(`An error was returned from the consent dialog: ${error}`, true);
   }
 }
 
@@ -44,7 +44,7 @@ function showConsentPopup() {
       } else {
         // Display error
         const error = JSON.stringify(error, Object.getOwnPropertyNames(error));
-        showError(`Could not open consent prompt dialog: ${error}`);
+        showStatus(`Could not open consent prompt dialog: ${error}`, true);
       }
     });
 }
@@ -75,18 +75,22 @@ function showConsentUi() {
   .appendTo('.container');
 }
 
-// Display an error
-function showError(message) {
-  $('.container').empty();
+// Display a status
+function showStatus(message, isError) {
+  $('.status').empty();
   $('<div/>', {
-    class: 'error-card ms-depth-4 error-msg'
+    class: `status-card ms-depth-4 ${isError ? 'error-msg' : 'success-msg'}`
   }).append($('<p/>', {
     class: 'ms-fontSize-24 ms-fontWeight-bold',
-    text: 'An error occurred'
+    text: isError ? 'An error occurred' : 'Success'
   })).append($('<p/>', {
     class: 'ms-fontSize-16 ms-fontWeight-regular',
     text: message
-  })).appendTo('.container');
+  })).appendTo('.status');
+}
+
+function toggleOverlay(show) {
+  $('.overlay').css('display', show ? 'block' : 'none');
 }
 // </AuthUiSnippet>
 
@@ -231,7 +235,7 @@ async function writeEventsToSheet(events) {
       await context.sync();
     } catch (err) {
       console.log(`Error: ${JSON.stringify(err)}`);
-      showError(err);
+      showStatus(err, true);
     }
   });
 }
@@ -240,6 +244,7 @@ async function writeEventsToSheet(events) {
 // <GetCalendarSnippet>
 async function getCalendar(evt) {
   evt.preventDefault();
+  toggleOverlay(true);
 
   const apiToken = await OfficeRuntime.auth.getAccessToken({ allowSignInPrompt: true });
 
@@ -258,16 +263,48 @@ async function getCalendar(evt) {
   if (response.ok) {
     const events = await response.json();
     writeEventsToSheet(events);
+    showStatus(`Imported ${events.length} events`, false);
   } else {
     const error = await response.json();
-    showError(`Error getting events from calendar: ${JSON.stringify(error)}`);
+    showStatus(`Error getting events from calendar: ${JSON.stringify(error)}`, true);
   }
+
+  toggleOverlay(false);
 }
 // </GetCalendarSnippet>
 
 // <CreateEventSnippet>
-function createEvent(evt) {
+async function createEvent(evt) {
   evt.preventDefault();
+  toggleOverlay(true);
+
+  const apiToken = await OfficeRuntime.auth.getAccessToken({ allowSignInPrompt: true });
+
+  const payload = {
+    eventSubject: $('#eventSubject').val(),
+    eventStart: $('#eventStart').val(),
+    eventEnd: $('#eventEnd').val()
+  };
+
+  const requestUrl = `${getBaseUrl()}/graph/newevent`;
+
+  const response = await fetch(requestUrl, {
+    method: 'POST',
+    headers: {
+      authorization: `Bearer ${apiToken}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload)
+  });
+
+  if (response.ok) {
+    showStatus('Event created', false);
+  } else {
+    const error = await response.json();
+    showStatus(`Error creating event: ${JSON.stringify(error)}`, true);
+  }
+
+  toggleOverlay(false);
 }
 // </CreateEventSnippet>
 
@@ -301,7 +338,7 @@ Office.onReady(info => {
         if (authStatus.status === 'error') {
           const error = JSON.stringify(authStatus.error,
             Object.getOwnPropertyNames(authstatus.error));
-          showError(`Error checking auth status: ${error}`);
+          showStatus(`Error checking auth status: ${error}`, true);
         } else {
           showMainUi();
         }

@@ -5,7 +5,7 @@ import Router from 'express-promise-router';
 import { zonedTimeToUtc } from 'date-fns-tz';
 import { findOneIana } from 'windows-iana';
 import * as graph from '@microsoft/microsoft-graph-client';
-import { MailboxSettings } from 'microsoft-graph';
+import { Event, MailboxSettings } from 'microsoft-graph';
 import 'isomorphic-fetch';
 import { getTokenOnBehalfOf } from './auth';
 
@@ -122,5 +122,47 @@ graphRouter.get('/calendarview',
   }
 );
 // </GetCalendarViewSnippet>
+
+// <CreateEventSnippet>
+graphRouter.post('/newevent',
+  async function(req, res) {
+    const authHeader = req.headers['authorization'];
+
+    if (authHeader) {
+      try {
+        const client = await getAuthenticatedClient(authHeader);
+
+        const timeZones = await getTimeZones(client);
+
+        // Create a new Graph Event object
+        const newEvent: Event = {
+          subject: req.body['eventSubject'],
+          start: {
+            dateTime: req.body['eventStart'],
+            timeZone: timeZones.graph
+          },
+          end: {
+            dateTime: req.body['eventEnd'],
+            timeZone: timeZones.graph
+          }
+        };
+
+        // POST /me/events
+        await client.api('/me/events')
+          .post(newEvent);
+
+        // Send a 201 Created
+        res.status(201).end();
+      } catch (error) {
+        console.log(error);
+        res.status(500).json(error);
+      }
+    } else {
+      // No auth header
+      res.status(401).end();
+    }
+  }
+);
+// </CreateEventSnippet>
 
 export default graphRouter;

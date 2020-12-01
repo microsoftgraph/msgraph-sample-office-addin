@@ -12,7 +12,7 @@ Start by adding an API to get a [calendar view](https://docs.microsoft.com/graph
     import { zonedTimeToUtc } from 'date-fns-tz';
     import { findOneIana } from 'windows-iana';
     import * as graph from '@microsoft/microsoft-graph-client';
-    import { MailboxSettings } from 'microsoft-graph';
+    import { Event, MailboxSettings } from 'microsoft-graph';
     import 'isomorphic-fetch';
     import { getTokenOnBehalfOf } from './auth';
     ```

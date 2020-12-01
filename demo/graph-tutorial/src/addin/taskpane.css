@@ -2,13 +2,31 @@
   margin: 10px;
 }
 
+.error-card {
+  padding: 1em;
+}
+
 .primary-button {
   padding: .5em;
   color: white;
   background-color: #0078d4;
   border: none;
+  display: block;
 }
 
 .error-msg {
   background-color: #fde7e9;
+}
+
+.date-picker {
+  display: block;
+  padding: .5em;
+  margin: 10px 0;
+}
+
+.form-input {
+  display: block;
+  padding: .5em;
+  margin: 10px 0;
+  width: 100%;
 }

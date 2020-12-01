@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import Router from 'express-promise-router';
 import jwt, { SigningKeyCallback, JwtHeader } from 'jsonwebtoken';
 import jwksClient from 'jwks-rsa';

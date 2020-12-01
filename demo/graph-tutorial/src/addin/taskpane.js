@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 'use strict';
 
 // <AuthUiSnippet>
@@ -76,24 +79,197 @@ function showConsentUi() {
 function showError(message) {
   $('.container').empty();
   $('<div/>', {
-    class: 'ms-depth-4 error-msg'
-  }).append('<p/>', {
+    class: 'error-card ms-depth-4 error-msg'
+  }).append($('<p/>', {
     class: 'ms-fontSize-24 ms-fontWeight-bold',
     text: 'An error occurred'
-  }).append('<p/>', {
-    class: 'ms-fontSize-26 ms-fontWeight-regular',
+  })).append($('<p/>', {
+    class: 'ms-fontSize-16 ms-fontWeight-regular',
     text: message
-  }).appendTo('.container');
+  })).appendTo('.container');
 }
 // </AuthUiSnippet>
 
+// <MainUiSnippet>
 function showMainUi() {
   $('.container').empty();
-  $('<p/>', {
-    class: 'ms-fontSize-24 ms-fontWeight-bold',
-    text: 'Authenticated!'
+
+  // Use luxon to calculate the start
+  // and end of the current week. Use
+  // those dates to set the initial values
+  // of the date pickers
+  const now = luxon.DateTime.local();
+  const startOfWeek = now.startOf('week');
+  const endOfWeek = now.endOf('week');
+
+  $('<h2/>', {
+    class: 'ms-fontSize-24 ms-fontWeight-semibold',
+    text: 'Select a date range to import'
   }).appendTo('.container');
+
+  // Create the import form
+  $('<form/>').on('submit', getCalendar)
+  .append($('<label/>', {
+    class: 'ms-fontSize-16 ms-fontWeight-semibold',
+    text: 'Start'
+  })).append($('<input/>', {
+    class: 'form-input',
+    type: 'date',
+    value: startOfWeek.toISODate(),
+    id: 'viewStart'
+  })).append($('<label/>', {
+    class: 'ms-fontSize-16 ms-fontWeight-semibold',
+    text: 'End'
+  })).append($('<input/>', {
+    class: 'form-input',
+    type: 'date',
+    value: endOfWeek.toISODate(),
+    id: 'viewEnd'
+  })).append($('<input/>', {
+    class: 'primary-button',
+    type: 'submit',
+    id: 'importButton',
+    value: 'Import'
+  })).appendTo('.container');
+
+  $('<hr/>').appendTo('.container');
+
+  $('<h2/>', {
+    class: 'ms-fontSize-24 ms-fontWeight-semibold',
+    text: 'Add event to calendar'
+  }).appendTo('.container');
+
+  // Create the new event form
+  $('<form/>').on('submit', createEvent)
+  .append($('<label/>', {
+    class: 'ms-fontSize-16 ms-fontWeight-semibold',
+    text: 'Subject'
+  })).append($('<input/>', {
+    class: 'form-input',
+    type: 'text',
+    required: true,
+    id: 'eventSubject'
+  })).append($('<label/>', {
+    class: 'ms-fontSize-16 ms-fontWeight-semibold',
+    text: 'Start'
+  })).append($('<input/>', {
+    class: 'form-input',
+    type: 'datetime-local',
+    required: true,
+    id: 'eventStart'
+  })).append($('<label/>', {
+    class: 'ms-fontSize-16 ms-fontWeight-semibold',
+    text: 'End'
+  })).append($('<input/>', {
+    class: 'form-input',
+    type: 'datetime-local',
+    required: true,
+    id: 'eventEnd'
+  })).append($('<input/>', {
+    class: 'primary-button',
+    type: 'submit',
+    id: 'importButton',
+    value: 'Create'
+  })).appendTo('.container');
 }
+// </MainUiSnippet>
+
+// <WriteToSheetSnippet>
+const DAY_MILLISECONDS = 86400000;
+const DAY_MINUTES = 1440;
+const EXCEL_DATE_OFFSET = 25569;
+
+// Excel date cells require an OLE Automation date format
+// You can use the Moment-MSDate plug-in
+// (https://docs.microsoft.com/office/dev/add-ins/excel/excel-add-ins-ranges-advanced#work-with-dates-using-the-moment-msdate-plug-in)
+// Or you can do the conversion yourself
+function convertDateToOAFormat(dateTime) {
+  const date = new Date(dateTime);
+
+  // Get the time zone offset for the browser's time zone
+  // since all of the dates here are handled in that time zone
+  const tzOffset = date.getTimezoneOffset() / DAY_MINUTES;
+
+  // Calculate the OLE Automation date, which is
+  // the number of days since midnight, December 30, 1899
+  const oaDate = date.getTime() / DAY_MILLISECONDS + EXCEL_DATE_OFFSET - tzOffset;
+  return oaDate;
+}
+
+async function writeEventsToSheet(events) {
+  await Excel.run(async (context) => {
+    const sheet = context.workbook.worksheets.getActiveWorksheet();
+    const eventsTable = sheet.tables.add('A1:D1', true);
+
+    // Create the header row
+    eventsTable.getHeaderRowRange().values = [[
+      'Subject',
+      'Organizer',
+      'Start',
+      'End'
+    ]];
+
+    // Create the data rows
+    const data = [];
+    events.forEach((event) => {
+      data.push([
+        event.subject,
+        event.organizer.emailAddress.name,
+        convertDateToOAFormat(event.start.dateTime),
+        convertDateToOAFormat(event.end.dateTime)
+      ]);
+    });
+
+    eventsTable.rows.add(null, data);
+
+    const tableRange = eventsTable.getRange();
+    tableRange.numberFormat = [["[$-409]m/d/yy h:mm AM/PM;@"]];
+    tableRange.format.autofitColumns();
+    tableRange.format.autofitRows();
+
+    try {
+      await context.sync();
+    } catch (err) {
+      console.log(`Error: ${JSON.stringify(err)}`);
+      showError(err);
+    }
+  });
+}
+// </WriteToSheetSnippet>
+
+// <GetCalendarSnippet>
+async function getCalendar(evt) {
+  evt.preventDefault();
+
+  const apiToken = await OfficeRuntime.auth.getAccessToken({ allowSignInPrompt: true });
+
+  const viewStart = $('#viewStart').val();
+  const viewEnd = $('#viewEnd').val();
+
+  const requestUrl =
+    `${getBaseUrl()}/graph/calendarview?viewStart=${viewStart}&viewEnd=${viewEnd}`;
+
+  const response = await fetch(requestUrl, {
+    headers: {
+      authorization: `Bearer ${apiToken}`
+    }
+  });
+
+  if (response.ok) {
+    const events = await response.json();
+    writeEventsToSheet(events);
+  } else {
+    const error = await response.json();
+    showError(`Error getting events from calendar: ${JSON.stringify(error)}`);
+  }
+}
+// </GetCalendarSnippet>
+
+// <CreateEventSnippet>
+function createEvent(evt) {
+  evt.preventDefault();
+}
+// </CreateEventSnippet>
 
 // <OfficeReadySnippet>
 Office.onReady(info => {

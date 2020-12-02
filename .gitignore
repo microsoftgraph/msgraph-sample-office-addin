@@ -102,3 +102,9 @@ dist
 
 # TernJS port file
 .tern-port
+
+localhost_manifest.xml
+config.js
+test.rest
+personal.env
+personal_manifest.xml

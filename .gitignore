@@ -106,3 +106,5 @@ dist
 localhost_manifest.xml
 config.js
 test.rest
+personal.env
+personal_manifest.xml

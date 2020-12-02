@@ -13,7 +13,7 @@ Office Add-in SSO provides an access token, but that token is only enables the a
 
 ## Configure the solution
 
-1. Open **./.env** and update the `AZURE_APP_ID`, `AZURE_CLIENT_SECRET`, and `AZURE_TENANT_ID` with the application ID, client secret, and tenant ID from your app registration.
+1. Open **./.env** and update the `AZURE_APP_ID` and `AZURE_CLIENT_SECRET` with the application ID and client secret from your app registration.
 
     > [!IMPORTANT]
     > If you're using source control such as git, now would be a good time to exclude the **.env** file from source control to avoid inadvertently leaking your app ID and client secret.

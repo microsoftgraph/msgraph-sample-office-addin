@@ -318,7 +318,7 @@ Office.onReady(info => {
         apiToken = await OfficeRuntime.auth.getAccessToken({ allowSignInPrompt: true });
         console.log(`API Token: ${apiToken}`);
       } catch (error) {
-        console.log(`getAccessToken error: ${error}`);
+        console.log(`getAccessToken error: ${JSON.stringify(error)}`);
         // Fall back to interactive login
         showConsentUi();
       }
@@ -337,7 +337,7 @@ Office.onReady(info => {
         // report error
         if (authStatus.status === 'error') {
           const error = JSON.stringify(authStatus.error,
-            Object.getOwnPropertyNames(authstatus.error));
+            Object.getOwnPropertyNames(authStatus.error));
           showStatus(`Error checking auth status: ${error}`, true);
         } else {
           showMainUi();

@@ -18,7 +18,7 @@ const msalClient = new msal.ConfidentialClientApplication({
 });
 
 const keyClient = jwksClient({
-  jwksUri: 'https://login.microsoftonline.com/common/discovery/keys'
+  jwksUri: 'https://login.microsoftonline.com/common/discovery/v2.0/keys'
 });
 
 // Parses the JWT header and retrieves the appropriate public key
@@ -40,14 +40,14 @@ async function validateJwt(authHeader: string): Promise<string | null> {
     const token = authHeader.split(' ')[1];
 
     // Ensure that the audience matches the app ID
-    // the issuer is correct, and the signature is valid
+    // and the signature is valid
     const validationOptions = {
-      audience: process.env.AZURE_APP_ID,
-      issuer: `https://login.microsoftonline.com/${process.env.AZURE_TENANT_ID}/v2.0`
+      audience: process.env.AZURE_APP_ID
     };
 
     jwt.verify(token, getSigningKey, validationOptions, (err, payload) => {
       if (err) {
+        console.log(`Verify error: ${JSON.stringify(err)}`);
         resolve(null);
       } else {
         resolve(token);

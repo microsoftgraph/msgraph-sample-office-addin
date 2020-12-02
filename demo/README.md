@@ -28,7 +28,7 @@ If you don't have a Microsoft account, there are a couple of options to get a fr
 
     ![A screenshot of the Register an application page](/tutorial/images/register-an-app.png)
 
-1. Select **Register**. On the **Office Add-in Graph Tutorial** page, copy the value of the **Application (client) ID** and **Directory (tenant) ID** and save them, you will need them in the next step.
+1. Select **Register**. On the **Office Add-in Graph Tutorial** page, copy the value of the **Application (client) ID** and save it, you will need it in the next step.
 
     ![A screenshot of the application ID of the new app registration](/tutorial/images/application-id.png)
 
@@ -105,9 +105,12 @@ Update the app registration to support [Office Add-in single sign-on (SSO)](http
 1. Edit the `.env` file and make the following changes.
     1. Replace `YOUR_APP_ID_HERE` with the **Application Id** you got from the App Registration Portal.
     1. Replace `YOUR_CLIENT_SECRET_HERE` with the client secret you got from the App Registration Portal.
-    1. Replace `YOUR_TENANT_ID_HERE` with the tenant ID you got from the App Registration Portal.
     1. Replace `PATH_TO_LOCALHOST.CRT` with the path to your localhost.crt file from the output of the `npx office-addin-dev-certs install` command.
     1. Replace `PATH_TO_LOCALHOST.KEY` with the path to your localhost.key file from the output of the `npx office-addin-dev-certs install` command.
+
+1. Rename the `config.example.js` file to `config.js`.
+1. Edit the `config.js` file and make the following changes.
+    1. Replace `YOUR_APP_ID_HERE` with the **Application Id** you got from the App Registration Portal.
 1. In your command-line interface (CLI), navigate to this directory and run the following command to install requirements.
 
     ```Shell

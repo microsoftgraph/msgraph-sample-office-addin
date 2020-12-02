@@ -16,7 +16,7 @@ In this exercise, you will create a new Azure AD web application registration us
 
     ![A screenshot of the Register an application page](images/register-an-app.png)
 
-1. Select **Register**. On the **Office Add-in Graph Tutorial** page, copy the value of the **Application (client) ID** and **Directory (tenant) ID** and save them, you will need them in the next step.
+1. Select **Register**. On the **Office Add-in Graph Tutorial** page, copy the value of the **Application (client) ID** and save it, you will need it in the next step.
 
     ![A screenshot of the application ID of the new app registration](images/application-id.png)
 
@@ -33,6 +33,7 @@ In this exercise, you will create a new Azure AD web application registration us
 
 1. Select the following permissions, then select **Add permissions**.
 
+    - **offline_access** - this will allow the app to refresh access tokens when they expire.
     - **Calendars.ReadWrite** - this will allow the app to read and write to the user's calendar.
     - **MailboxSettings.Read** - this will allow the app to get the user's time zone from their mailbox settings.
 

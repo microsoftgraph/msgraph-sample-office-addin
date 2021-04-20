@@ -3,7 +3,7 @@
 
 import Router from 'express-promise-router';
 import { zonedTimeToUtc } from 'date-fns-tz';
-import { findOneIana } from 'windows-iana';
+import { findIana } from 'windows-iana';
 import * as graph from '@microsoft/microsoft-graph-client';
 import { Event, MailboxSettings } from 'microsoft-graph';
 import 'isomorphic-fetch';
@@ -41,7 +41,8 @@ async function getTimeZones(client: graph.Client): Promise<TimeZones> {
 
   // Time zone from Graph can be in IANA format or a
   // Windows time zone name. If Windows, convert to IANA
-  const ianaTz = findOneIana(settings.timeZone!);
+  const ianaTzs = findIana(settings.timeZone!)
+  const ianaTz = ianaTzs ? ianaTzs[0] : null;
 
   const returnValue: TimeZones = {
     graph: settings.timeZone!,

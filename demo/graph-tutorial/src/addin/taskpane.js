@@ -246,30 +246,35 @@ async function getCalendar(evt) {
   evt.preventDefault();
   toggleOverlay(true);
 
-  const apiToken = await OfficeRuntime.auth.getAccessToken({ allowSignInPrompt: true });
+  try {
+    const apiToken = await OfficeRuntime.auth.getAccessToken({ allowSignInPrompt: true });
 
-  const viewStart = $('#viewStart').val();
-  const viewEnd = $('#viewEnd').val();
+    const viewStart = $('#viewStart').val();
+    const viewEnd = $('#viewEnd').val();
 
-  const requestUrl =
-    `${getBaseUrl()}/graph/calendarview?viewStart=${viewStart}&viewEnd=${viewEnd}`;
+    const requestUrl =
+      `${getBaseUrl()}/graph/calendarview?viewStart=${viewStart}&viewEnd=${viewEnd}`;
 
-  const response = await fetch(requestUrl, {
-    headers: {
-      authorization: `Bearer ${apiToken}`
+    const response = await fetch(requestUrl, {
+      headers: {
+        authorization: `Bearer ${apiToken}`
+      }
+    });
+
+    if (response.ok) {
+      const events = await response.json();
+      writeEventsToSheet(events);
+      showStatus(`Imported ${events.length} events`, false);
+    } else {
+      const error = await response.json();
+      showStatus(`Error getting events from calendar: ${JSON.stringify(error)}`, true);
     }
-  });
 
-  if (response.ok) {
-    const events = await response.json();
-    writeEventsToSheet(events);
-    showStatus(`Imported ${events.length} events`, false);
-  } else {
-    const error = await response.json();
-    showStatus(`Error getting events from calendar: ${JSON.stringify(error)}`, true);
+    toggleOverlay(false);
+  } catch (err) {
+    console.log(`Error: ${JSON.stringify(err)}`);
+    showStatus(`Exception getting events from calendar: ${JSON.stringify(error)}`, true);
   }
-
-  toggleOverlay(false);
 }
 // </GetCalendarSnippet>
 

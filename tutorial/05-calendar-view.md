@@ -10,7 +10,7 @@ Start by adding an API to get a [calendar view](https://docs.microsoft.com/graph
 
     ```typescript
     import { zonedTimeToUtc } from 'date-fns-tz';
-    import { findOneIana } from 'windows-iana';
+    import { findIana } from 'windows-iana';
     import * as graph from '@microsoft/microsoft-graph-client';
     import { Event, MailboxSettings } from 'microsoft-graph';
     import 'isomorphic-fetch';

@@ -20,6 +20,10 @@ In this exercise, you will create a new Azure AD web application registration us
 
     ![A screenshot of the application ID of the new app registration](images/application-id.png)
 
+1. Select **Authentication** under **Manage**. Locate the **Implicit grant** section and enable **Access tokens** and **ID tokens**. Select **Save**.
+
+    ![A screenshot of the Implicit grant section](./images/aad-implicit-grant.png)
+
 1. Select **Certificates & secrets** under **Manage**. Select the **New client secret** button. Enter a value in **Description** and select one of the options for **Expires** and select **Add**.
 
 1. Copy the client secret value before you leave this page. You will need it in the next step.

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 // <ServerSnippet>
-import express from 'express';
+import express, { RequestHandler } from 'express';
 import https from 'https';
 import fs from 'fs';
 import dotenv from 'dotenv';
@@ -18,7 +18,7 @@ const app = express();
 const PORT = 3000;
 
 // Support JSON payloads
-app.use(express.json());
+app.use(express.json() as RequestHandler);
 app.use(express.static(path.join(__dirname, 'addin')));
 app.use(express.static(path.join(__dirname, 'dist/addin')));
 

@@ -19,11 +19,11 @@ In this exercise you will create an Office Add-in solution using [Express](http:
 
     ```Shell
     yarn add express@4.17.1 express-promise-router@4.1.0 dotenv@10.0.0 node-fetch@2.6.1 jsonwebtoken@8.5.1@
-    yarn add jwks-rsa@2.0.3 @azure/msal-node@1.2.0 @microsoft/microsoft-graph-client@3.0.0-Preview.2
-    yarn add date-fns@2.22.1 date-fns-tz@1.1.4 isomorphic-fetch@3.0.0 windows-iana@5.0.2
-    yarn add -D typescript@4.3.5 ts-node@10.0.0 nodemon@2.0.9 @types/node@14.17.4 @types/express@4.17.12
-    yarn add -D @types/node-fetch@2.5.10 @types/jsonwebtoken@8.5.3 @types/microsoft-graph@1.41.0
-    yarn add -D @types/office-js@1.0.188 @types/jquery@3.5.5 @types/isomorphic-fetch@0.0.35
+    yarn add jwks-rsa@2.0.4 @azure/msal-node@1.3.0 @microsoft/microsoft-graph-client@3.0.0
+    yarn add date-fns@2.23.0 date-fns-tz@1.1.6 isomorphic-fetch@3.0.0 windows-iana@5.0.2
+    yarn add -D typescript@4.3.5 ts-node@10.2.0 nodemon@2.0.12 @types/node@16.4.13 @types/express@4.17.13
+    yarn add -D @types/node-fetch@2.5.12 @types/jsonwebtoken@8.5.4 @types/microsoft-graph@2.0.0
+    yarn add -D @types/office-js@1.0.195 @types/jquery@3.5.6 @types/isomorphic-fetch@0.0.35
     ```
 
 1. Run the following command to generate a tsconfig.json file.

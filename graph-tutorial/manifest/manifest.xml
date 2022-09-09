@@ -84,8 +84,8 @@
       </bt:LongStrings>
     </Resources>
     <WebApplicationInfo>
-      <Id>YOUR_APP_ID_HERE</Id>
-      <Resource>api://localhost:3000/YOUR_APP_ID_HERE</Resource>
+      <Id>844e7b6c-3bf1-4522-8ed2-45558ef8bf58</Id>
+      <Resource>api://localhost:3000/844e7b6c-3bf1-4522-8ed2-45558ef8bf58</Resource>
       <Scopes>
         <Scope>openid</Scope>
         <Scope>profile</Scope>

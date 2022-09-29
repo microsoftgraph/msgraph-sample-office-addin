@@ -1,79 +1,78 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import Router from 'express-promise-router';
 import jwt, { SigningKeyCallback, JwtHeader } from 'jsonwebtoken';
 import jwksClient from 'jwks-rsa';
 import * as msal from '@azure/msal-node';
 
+const authRouter = Router();
+
 // <TokenExchangeSnippet>
 // Initialize an MSAL confidential client
 const msalClient = new msal.ConfidentialClientApplication({
-    auth: {
-      clientId: process.env.AZURE_APP_ID!,
-      clientSecret: process.env.AZURE_CLIENT_SECRET!
-    }
-  });
-  
-  const keyClient = jwksClient({
-    jwksUri: 'https://login.microsoftonline.com/common/discovery/v2.0/keys'
-  });
-  
-  // Parses the JWT header and retrieves the appropriate public key
-  function getSigningKey(header: JwtHeader, callback: SigningKeyCallback): void {
-    if (header) {
-      keyClient.getSigningKey(header.kid!, (err, key) => {
-        if (err) {
-          callback(err, undefined);
-        } else {
-          callback(null, (key?.getPublicKey()));
-        }
-      });
-    }
+  auth: {
+    clientId: process.env.AZURE_APP_ID!,
+    clientSecret: process.env.AZURE_CLIENT_SECRET!
   }
-  
-  // Validates a JWT and returns it if valid
-  async function validateJwt(authHeader: string): Promise<string | null> {
-    return new Promise((resolve, reject) => {
-      const token = authHeader.split(' ')[1];
-  
-      // Ensure that the audience matches the app ID
-      // and the signature is valid
-      const validationOptions = {
-        audience: process.env.AZURE_APP_ID
-      };
-  
-      jwt.verify(token, getSigningKey, validationOptions, (err, payload) => {
-        if (err) {
-          console.log(`Verify error: ${JSON.stringify(err)}`);
-          resolve(null);
-        } else {
-          resolve(token);
-        }
-      });
+});
+
+const keyClient = jwksClient({
+  jwksUri: 'https://login.microsoftonline.com/common/discovery/v2.0/keys'
+});
+
+// Parses the JWT header and retrieves the appropriate public key
+function getSigningKey(header: JwtHeader, callback: SigningKeyCallback): void {
+  if (header) {
+    keyClient.getSigningKey(header.kid!, (err, key) => {
+      if (err) {
+        callback(err, undefined);
+      } else {
+        callback(null, key?.getPublicKey());
+      }
     });
   }
-  
-  // Gets a Graph token from the API token contained in the
-  // auth header
-  export async function getTokenOnBehalfOf(authHeader: string): Promise<string | undefined> {
-    // Validate the supplied token if present
-    const token = await validateJwt(authHeader);
-  
-    if (token) {
-      const result = await msalClient.acquireTokenOnBehalfOf({
-        oboAssertion: token,
-        skipCache: true,
-        scopes: ['https://graph.microsoft.com/.default']
-      });
-  
-      return result?.accessToken;
-    }
+}
+
+// Validates a JWT and returns it if valid
+async function validateJwt(authHeader: string): Promise<string | null> {
+  return new Promise((resolve, reject) => {
+    const token = authHeader.split(' ')[1];
+
+    // Ensure that the audience matches the app ID
+    // and the signature is valid
+    const validationOptions = {
+      audience: process.env.AZURE_APP_ID
+    };
+
+    jwt.verify(token, getSigningKey, validationOptions, (err, payload) => {
+      if (err) {
+        console.log(`Verify error: ${JSON.stringify(err)}`);
+        resolve(null);
+      } else {
+        resolve(token);
+      }
+    });
+  });
+}
+
+// Gets a Graph token from the API token contained in the
+// auth header
+export async function getTokenOnBehalfOf(authHeader: string): Promise<string | undefined> {
+  // Validate the supplied token if present
+  const token = await validateJwt(authHeader);
+
+  if (token) {
+    const result = await msalClient.acquireTokenOnBehalfOf({
+      oboAssertion: token,
+      skipCache: true,
+      scopes: ['https://graph.microsoft.com/.default']
+    });
+
+    return result?.accessToken;
   }
-  // </TokenExchangeSnippet>
-
-import Router from 'express-promise-router';
-
-const authRouter = Router();
+}
+// </TokenExchangeSnippet>
 
 // <GetAuthStatusSnippet>
 // Checks if the add-in token can be silently exchanged

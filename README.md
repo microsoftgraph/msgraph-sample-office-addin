@@ -6,7 +6,7 @@ products:
 - microsoft-graph-calendar-api
 - office-exchange-online
 languages:
-- java
+- typescript
 ---
 
 # Microsoft Graph sample Office Add-in
@@ -17,7 +17,7 @@ This sample demonstrates how to use the Microsoft Graph JavaScript SDK to access
 
 To run the completed project in this folder, you need the following:
 
-- [Node.js](https://nodejs.org) and [Yarn](https://yarnpkg.com/) installed on your development machine. (**Note:** This tutorial was written with Node version 14.15.0 and Yarn version 1.22.0. The steps in this guide may work with other versions, but that has not been tested.)
+- [Node.js](https://nodejs.org) and [Yarn](https://yarnpkg.com/) installed on your development machine. (**Note:** This tutorial was written with Node version 16.14.2 and Yarn version 1.22.19. The steps in this guide may work with other versions, but that has not been tested.)
 - Either a personal Microsoft account with a mailbox on Outlook.com, or a Microsoft work or school account.
 
 If you don't have a Microsoft account, there are a couple of options to get a free account:
@@ -100,7 +100,7 @@ Update the app registration to support [Office Add-in single sign-on (SSO)](http
 
 1. Open the **manifest.xml** file and make the following changes.
     1. Replace `NEW_GUID_HERE` with a new GUID, like `b4fa03b8-1eb6-4e8b-a380-e0476be9e019`.
-    1. Replace all instances of `YOUR_APP_ID_HERE` with the application ID from your app registration.
+    1. Replace all instances of `YOUR_CLIENT_ID_HERE` with the application ID from your app registration.
 
 ## Configure the sample
 
@@ -128,13 +128,13 @@ Update the app registration to support [Office Add-in single sign-on (SSO)](http
     yarn start
     ```
 
-1. In your browser, go to [Office.com](https://www.office.com/) and sign in. Select **Create** in the left-hand toolbar, then select **Spreadsheet**.
+1. In your browser, go to [Office.com](https://www.office.com/) and sign in. Select **Create** in the left-hand toolbar, then select **Workbook**.
 
 1. Select the **Insert** tab, then select **Office Add-ins**.
 
 1. Select **Upload My Add-in**, then select **Browse**. Upload your **manifest.xml** file.
 
-1. Select the **Import Calendar** button on the **Home** tab to open the taskpane.
+1. Select the **Import Calendar** button on the **Home** tab to open the task pane.
 
 ## Code of conduct
 

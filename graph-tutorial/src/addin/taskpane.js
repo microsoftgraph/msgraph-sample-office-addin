@@ -1,129 +1,7 @@
-// TEMPORARY CODE TO VERIFY ADD-IN LOADS
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 'use strict';
-
-// <OfficeReadySnippet>
-Office.onReady(info => {
-  // Only run if we're inside Excel
-  if (info.host === Office.HostType.Excel) {
-    $(async function() {
-      let apiToken = '';
-      try {
-        apiToken = await OfficeRuntime.auth.getAccessToken({ allowSignInPrompt: true });
-        console.log(`API Token: ${apiToken}`);
-      } catch (error) {
-        console.log(`getAccessToken error: ${JSON.stringify(error)}`);
-        // Fall back to interactive login
-        showConsentUi();
-      }
-
-      // Call auth status API to see if we need to get consent
-      const authStatusResponse = await fetch(`${getBaseUrl()}/auth/status`, {
-        headers: {
-          authorization: `Bearer ${apiToken}`
-        }
-      });
-
-      const authStatus = await authStatusResponse.json();
-      if (authStatus.status === 'consent_required') {
-        showConsentUi();
-      } else {
-        // report error
-        if (authStatus.status === 'error') {
-          const error = JSON.stringify(authStatus.error,
-            Object.getOwnPropertyNames(authStatus.error));
-          showStatus(`Error checking auth status: ${error}`, true);
-        } else {
-          showMainUi();
-        }
-      }
-    });
-  }
-});
-// </OfficeReadySnippet>
-
-// <MainUiSnippet>
-function showMainUi() {
-  $('.container').empty();
-
-  // Use luxon to calculate the start
-  // and end of the current week. Use
-  // those dates to set the initial values
-  // of the date pickers
-  const now = luxon.DateTime.local();
-  const startOfWeek = now.startOf('week');
-  const endOfWeek = now.endOf('week');
-
-  $('<h2/>', {
-    class: 'ms-fontSize-24 ms-fontWeight-semibold',
-    text: 'Select a date range to import'
-  }).appendTo('.container');
-
-  // Create the import form
-  $('<form/>').on('submit', getCalendar)
-  .append($('<label/>', {
-    class: 'ms-fontSize-16 ms-fontWeight-semibold',
-    text: 'Start'
-  })).append($('<input/>', {
-    class: 'form-input',
-    type: 'date',
-    value: startOfWeek.toISODate(),
-    id: 'viewStart'
-  })).append($('<label/>', {
-    class: 'ms-fontSize-16 ms-fontWeight-semibold',
-    text: 'End'
-  })).append($('<input/>', {
-    class: 'form-input',
-    type: 'date',
-    value: endOfWeek.toISODate(),
-    id: 'viewEnd'
-  })).append($('<input/>', {
-    class: 'primary-button',
-    type: 'submit',
-    id: 'importButton',
-    value: 'Import'
-  })).appendTo('.container');
-
-  $('<hr/>').appendTo('.container');
-
-  $('<h2/>', {
-    class: 'ms-fontSize-24 ms-fontWeight-semibold',
-    text: 'Add event to calendar'
-  }).appendTo('.container');
-
-  // Create the new event form
-  $('<form/>').on('submit', createEvent)
-  .append($('<label/>', {
-    class: 'ms-fontSize-16 ms-fontWeight-semibold',
-    text: 'Subject'
-  })).append($('<input/>', {
-    class: 'form-input',
-    type: 'text',
-    required: true,
-    id: 'eventSubject'
-  })).append($('<label/>', {
-    class: 'ms-fontSize-16 ms-fontWeight-semibold',
-    text: 'Start'
-  })).append($('<input/>', {
-    class: 'form-input',
-    type: 'datetime-local',
-    required: true,
-    id: 'eventStart'
-  })).append($('<label/>', {
-    class: 'ms-fontSize-16 ms-fontWeight-semibold',
-    text: 'End'
-  })).append($('<input/>', {
-    class: 'form-input',
-    type: 'datetime-local',
-    required: true,
-    id: 'eventEnd'
-  })).append($('<input/>', {
-    class: 'primary-button',
-    type: 'submit',
-    id: 'importButton',
-    value: 'Create'
-  })).appendTo('.container');
-}
-// </MainUiSnippet>
 
 // <AuthUiSnippet>
 // Handle to authentication pop dialog
@@ -216,6 +94,90 @@ function toggleOverlay(show) {
 }
 // </AuthUiSnippet>
 
+// <MainUiSnippet>
+function showMainUi() {
+  $('.container').empty();
+
+  // Use luxon to calculate the start
+  // and end of the current week. Use
+  // those dates to set the initial values
+  // of the date pickers
+  const now = luxon.DateTime.local();
+  const startOfWeek = now.startOf('week');
+  const endOfWeek = now.endOf('week');
+
+  $('<h2/>', {
+    class: 'ms-fontSize-24 ms-fontWeight-semibold',
+    text: 'Select a date range to import'
+  }).appendTo('.container');
+
+  // Create the import form
+  $('<form/>').on('submit', getCalendar)
+  .append($('<label/>', {
+    class: 'ms-fontSize-16 ms-fontWeight-semibold',
+    text: 'Start'
+  })).append($('<input/>', {
+    class: 'form-input',
+    type: 'date',
+    value: startOfWeek.toISODate(),
+    id: 'viewStart'
+  })).append($('<label/>', {
+    class: 'ms-fontSize-16 ms-fontWeight-semibold',
+    text: 'End'
+  })).append($('<input/>', {
+    class: 'form-input',
+    type: 'date',
+    value: endOfWeek.toISODate(),
+    id: 'viewEnd'
+  })).append($('<input/>', {
+    class: 'primary-button',
+    type: 'submit',
+    id: 'importButton',
+    value: 'Import'
+  })).appendTo('.container');
+
+  $('<hr/>').appendTo('.container');
+
+  $('<h2/>', {
+    class: 'ms-fontSize-24 ms-fontWeight-semibold',
+    text: 'Add event to calendar'
+  }).appendTo('.container');
+
+  // Create the new event form
+  $('<form/>').on('submit', createEvent)
+  .append($('<label/>', {
+    class: 'ms-fontSize-16 ms-fontWeight-semibold',
+    text: 'Subject'
+  })).append($('<input/>', {
+    class: 'form-input',
+    type: 'text',
+    required: true,
+    id: 'eventSubject'
+  })).append($('<label/>', {
+    class: 'ms-fontSize-16 ms-fontWeight-semibold',
+    text: 'Start'
+  })).append($('<input/>', {
+    class: 'form-input',
+    type: 'datetime-local',
+    required: true,
+    id: 'eventStart'
+  })).append($('<label/>', {
+    class: 'ms-fontSize-16 ms-fontWeight-semibold',
+    text: 'End'
+  })).append($('<input/>', {
+    class: 'form-input',
+    type: 'datetime-local',
+    required: true,
+    id: 'eventEnd'
+  })).append($('<input/>', {
+    class: 'primary-button',
+    type: 'submit',
+    id: 'importButton',
+    value: 'Create'
+  })).appendTo('.container');
+}
+// </MainUiSnippet>
+
 // <WriteToSheetSnippet>
 const DAY_MILLISECONDS = 86400000;
 const DAY_MINUTES = 1440;
@@ -301,7 +263,7 @@ async function getCalendar(evt) {
 
     if (response.ok) {
       const events = await response.json();
-      writeEventsToSheet(events);
+      if (events.length > 0) writeEventsToSheet(events);
       showStatus(`Imported ${events.length} events`, false);
     } else {
       const error = await response.json();
@@ -311,7 +273,7 @@ async function getCalendar(evt) {
     toggleOverlay(false);
   } catch (err) {
     console.log(`Error: ${JSON.stringify(err)}`);
-    showStatus(`Exception getting events from calendar: ${JSON.stringify(error)}`, true);
+    showStatus(`Exception getting events from calendar: ${JSON.stringify(err)}`, true);
   }
 }
 // </GetCalendarSnippet>
@@ -350,3 +312,43 @@ async function createEvent(evt) {
   toggleOverlay(false);
 }
 // </CreateEventSnippet>
+
+// <OfficeReadySnippet>
+Office.onReady(info => {
+  // Only run if we're inside Excel
+  if (info.host === Office.HostType.Excel) {
+    $(async function() {
+      let apiToken = '';
+      try {
+        apiToken = await OfficeRuntime.auth.getAccessToken({ allowSignInPrompt: true });
+        console.log(`API Token: ${apiToken}`);
+      } catch (error) {
+        console.log(`getAccessToken error: ${JSON.stringify(error)}`);
+        // Fall back to interactive login
+        showConsentUi();
+      }
+
+      // Call auth status API to see if we need to get consent
+      const authStatusResponse = await fetch(`${getBaseUrl()}/auth/status`, {
+        headers: {
+          authorization: `Bearer ${apiToken}`
+        }
+      });
+
+      const authStatus = await authStatusResponse.json();
+      if (authStatus.status === 'consent_required') {
+        showConsentUi();
+      } else {
+        // report error
+        if (authStatus.status === 'error') {
+          const error = JSON.stringify(authStatus.error,
+            Object.getOwnPropertyNames(authStatus.error));
+          showStatus(`Error checking auth status: ${error}`, true);
+        } else {
+          showMainUi();
+        }
+      }
+    });
+  }
+});
+// </OfficeReadySnippet>

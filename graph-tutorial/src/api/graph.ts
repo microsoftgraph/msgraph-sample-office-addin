@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import Router from 'express-promise-router';
 import { zonedTimeToUtc } from 'date-fns-tz';
 import { findIana } from 'windows-iana';
 import * as graph from '@microsoft/microsoft-graph-client';
@@ -10,53 +11,50 @@ import { getTokenOnBehalfOf } from './auth';
 
 // <GetClientSnippet>
 async function getAuthenticatedClient(authHeader: string): Promise<graph.Client> {
-    const accessToken = await getTokenOnBehalfOf(authHeader);
-  
-    return graph.Client.init({
-      authProvider: (done) => {
-        // Call the callback with the
-        // access token
-        done(null, accessToken!);
-      }
-    });
-  }
-  // </GetClientSnippet>
+  const accessToken = await getTokenOnBehalfOf(authHeader);
 
-  // <GetTimeZonesSnippet>
+  return graph.Client.init({
+    authProvider: (done) => {
+      // Call the callback with the
+      // access token
+      done(null, accessToken!);
+    }
+  });
+}
+// </GetClientSnippet>
+
+// <GetTimeZonesSnippet>
 interface TimeZones {
-    // The string returned by Microsoft Graph
-    // Could be Windows name or IANA identifier.
-    graph: string;
-    // The IANA identifier
-    iana: string;
-  }
-  
-  async function getTimeZones(client: graph.Client): Promise<TimeZones> {
-    // Get mailbox settings to determine user's
-    // time zone
-    const settings: MailboxSettings = await client
-      .api('/me/mailboxsettings')
-      .get();
-  
-    // Time zone from Graph can be in IANA format or a
-    // Windows time zone name. If Windows, convert to IANA
-    const ianaTzs = findIana(settings.timeZone!)
-    const ianaTz = ianaTzs ? ianaTzs[0] : null;
-  
-    const returnValue: TimeZones = {
-      graph: settings.timeZone!,
-      iana: ianaTz ?? settings.timeZone!
-    };
-  
-    return returnValue;
-  }
-  // </GetTimeZonesSnippet>
+  // The string returned by Microsoft Graph
+  // Could be Windows name or IANA identifier.
+  graph: string;
+  // The IANA identifier
+  iana: string;
+}
 
-import Router from 'express-promise-router';
+async function getTimeZones(client: graph.Client): Promise<TimeZones> {
+  // Get mailbox settings to determine user's
+  // time zone
+  const settings: MailboxSettings = await client
+    .api('/me/mailboxsettings')
+    .get();
+
+  // Time zone from Graph can be in IANA format or a
+  // Windows time zone name. If Windows, convert to IANA
+  const ianaTzs = findIana(settings.timeZone!)
+  const ianaTz = ianaTzs ? ianaTzs[0] : null;
+
+  const returnValue: TimeZones = {
+    graph: settings.timeZone!,
+    iana: ianaTz ?? settings.timeZone!
+  };
+
+  return returnValue;
+}
+// </GetTimeZonesSnippet>
 
 const graphRouter = Router();
 
-// TODO: Implement this router
 // <GetCalendarViewSnippet>
 graphRouter.get('/calendarview',
   async function(req, res) {

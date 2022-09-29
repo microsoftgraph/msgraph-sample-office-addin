@@ -4,7 +4,7 @@
            xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
            xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides"
            xsi:type="TaskPaneApp">
-  <Id>8310f942-69e2-4b24-859d-e8c9bcf05fb4</Id>
+  <Id>NEW_GUID_HERE</Id>
   <Version>1.0.0.0</Version>
   <ProviderName>Contoso</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
@@ -84,8 +84,8 @@
       </bt:LongStrings>
     </Resources>
     <WebApplicationInfo>
-      <Id>844e7b6c-3bf1-4522-8ed2-45558ef8bf58</Id>
-      <Resource>api://localhost:3000/844e7b6c-3bf1-4522-8ed2-45558ef8bf58</Resource>
+      <Id>YOUR_CLIENT_ID_HERE</Id>
+      <Resource>api://localhost:3000/YOUR_CLIENT_ID_HERE</Resource>
       <Scopes>
         <Scope>openid</Scope>
         <Scope>profile</Scope>

@@ -7,6 +7,7 @@ products:
 - office-exchange-online
 languages:
 - typescript
+- javascript
 ---
 
 # Microsoft Graph sample Office Add-in

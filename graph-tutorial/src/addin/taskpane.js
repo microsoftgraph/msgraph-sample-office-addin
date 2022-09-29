@@ -1,11 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-'use strict';
-
 // <AuthUiSnippet>
 // Handle to authentication pop dialog
+/**
+ * @type {Office.Dialog | undefined}
+ */
 let authDialog = undefined;
+
+// @ts-ignore
+var luxon = luxon || { DateTime: { local: () => {throw new Error('luxon not loaded');}}};
+
+// @ts-ignore
+var OfficeRuntime = OfficeRuntime || { auth: { getAccessToken: () => {throw new Error('office.js not loaded');}}};
 
 // Build a base URL from the current location
 function getBaseUrl() {
@@ -14,10 +21,14 @@ function getBaseUrl() {
 }
 
 // Process the response back from the auth dialog
+/**
+ * @param {{ message: string; origin: string | undefined; } | { error: number }} result
+ */
 function processConsent(result) {
+  // @ts-ignore
   const message = JSON.parse(result.message);
 
-  authDialog.close();
+  authDialog?.close();
   if (message.status === 'success') {
     showMainUi();
   } else {
@@ -43,7 +54,7 @@ function showConsentPopup() {
         authDialog.addEventHandler(Office.EventType.DialogMessageReceived, processConsent);
       } else {
         // Display error
-        const error = JSON.stringify(error, Object.getOwnPropertyNames(error));
+        const error = JSON.stringify(result.error, Object.getOwnPropertyNames(result.error));
         showStatus(`Could not open consent prompt dialog: ${error}`, true);
       }
     });
@@ -72,10 +83,14 @@ function showConsentUi() {
     class: 'primary-button',
     text: 'Give permission'
   }).on('click', showConsentPopup)
-  .appendTo('.container');
+    .appendTo('.container');
 }
 
 // Display a status
+/**
+ * @param {unknown} message
+ * @param {boolean} isError
+ */
 function showStatus(message, isError) {
   $('.status').empty();
   $('<div/>', {
@@ -89,6 +104,9 @@ function showStatus(message, isError) {
   })).appendTo('.status');
 }
 
+/**
+ * @param {boolean} show
+ */
 function toggleOverlay(show) {
   $('.overlay').css('display', show ? 'block' : 'none');
 }
@@ -113,28 +131,28 @@ function showMainUi() {
 
   // Create the import form
   $('<form/>').on('submit', getCalendar)
-  .append($('<label/>', {
-    class: 'ms-fontSize-16 ms-fontWeight-semibold',
-    text: 'Start'
-  })).append($('<input/>', {
-    class: 'form-input',
-    type: 'date',
-    value: startOfWeek.toISODate(),
-    id: 'viewStart'
-  })).append($('<label/>', {
-    class: 'ms-fontSize-16 ms-fontWeight-semibold',
-    text: 'End'
-  })).append($('<input/>', {
-    class: 'form-input',
-    type: 'date',
-    value: endOfWeek.toISODate(),
-    id: 'viewEnd'
-  })).append($('<input/>', {
-    class: 'primary-button',
-    type: 'submit',
-    id: 'importButton',
-    value: 'Import'
-  })).appendTo('.container');
+    .append($('<label/>', {
+      class: 'ms-fontSize-16 ms-fontWeight-semibold',
+      text: 'Start'
+    })).append($('<input/>', {
+      class: 'form-input',
+      type: 'date',
+      value: startOfWeek.toISODate(),
+      id: 'viewStart'
+    })).append($('<label/>', {
+      class: 'ms-fontSize-16 ms-fontWeight-semibold',
+      text: 'End'
+    })).append($('<input/>', {
+      class: 'form-input',
+      type: 'date',
+      value: endOfWeek.toISODate(),
+      id: 'viewEnd'
+    })).append($('<input/>', {
+      class: 'primary-button',
+      type: 'submit',
+      id: 'importButton',
+      value: 'Import'
+    })).appendTo('.container');
 
   $('<hr/>').appendTo('.container');
 
@@ -145,36 +163,36 @@ function showMainUi() {
 
   // Create the new event form
   $('<form/>').on('submit', createEvent)
-  .append($('<label/>', {
-    class: 'ms-fontSize-16 ms-fontWeight-semibold',
-    text: 'Subject'
-  })).append($('<input/>', {
-    class: 'form-input',
-    type: 'text',
-    required: true,
-    id: 'eventSubject'
-  })).append($('<label/>', {
-    class: 'ms-fontSize-16 ms-fontWeight-semibold',
-    text: 'Start'
-  })).append($('<input/>', {
-    class: 'form-input',
-    type: 'datetime-local',
-    required: true,
-    id: 'eventStart'
-  })).append($('<label/>', {
-    class: 'ms-fontSize-16 ms-fontWeight-semibold',
-    text: 'End'
-  })).append($('<input/>', {
-    class: 'form-input',
-    type: 'datetime-local',
-    required: true,
-    id: 'eventEnd'
-  })).append($('<input/>', {
-    class: 'primary-button',
-    type: 'submit',
-    id: 'importButton',
-    value: 'Create'
-  })).appendTo('.container');
+    .append($('<label/>', {
+      class: 'ms-fontSize-16 ms-fontWeight-semibold',
+      text: 'Subject'
+    })).append($('<input/>', {
+      class: 'form-input',
+      type: 'text',
+      required: true,
+      id: 'eventSubject'
+    })).append($('<label/>', {
+      class: 'ms-fontSize-16 ms-fontWeight-semibold',
+      text: 'Start'
+    })).append($('<input/>', {
+      class: 'form-input',
+      type: 'datetime-local',
+      required: true,
+      id: 'eventStart'
+    })).append($('<label/>', {
+      class: 'ms-fontSize-16 ms-fontWeight-semibold',
+      text: 'End'
+    })).append($('<input/>', {
+      class: 'form-input',
+      type: 'datetime-local',
+      required: true,
+      id: 'eventEnd'
+    })).append($('<input/>', {
+      class: 'primary-button',
+      type: 'submit',
+      id: 'importButton',
+      value: 'Create'
+    })).appendTo('.container');
 }
 // </MainUiSnippet>
 
@@ -187,6 +205,9 @@ const EXCEL_DATE_OFFSET = 25569;
 // You can use the Moment-MSDate plug-in
 // (https://docs.microsoft.com/office/dev/add-ins/excel/excel-add-ins-ranges-advanced#work-with-dates-using-the-moment-msdate-plug-in)
 // Or you can do the conversion yourself
+/**
+ * @param {string | number | Date} dateTime
+ */
 function convertDateToOAFormat(dateTime) {
   const date = new Date(dateTime);
 
@@ -200,6 +221,9 @@ function convertDateToOAFormat(dateTime) {
   return oaDate;
 }
 
+/**
+ * @param {any[]} events
+ */
 async function writeEventsToSheet(events) {
   await Excel.run(async (context) => {
     const sheet = context.workbook.worksheets.getActiveWorksheet();
@@ -214,6 +238,9 @@ async function writeEventsToSheet(events) {
     ]];
 
     // Create the data rows
+    /**
+     * @type {string | number | boolean | any[][] | undefined}
+     */
     const data = [];
     events.forEach((event) => {
       data.push([
@@ -224,10 +251,10 @@ async function writeEventsToSheet(events) {
       ]);
     });
 
-    eventsTable.rows.add(null, data);
+    eventsTable.rows.add(undefined, data);
 
     const tableRange = eventsTable.getRange();
-    tableRange.numberFormat = [["[$-409]m/d/yy h:mm AM/PM;@"]];
+    tableRange.numberFormat = [['[$-409]m/d/yy h:mm AM/PM;@']];
     tableRange.format.autofitColumns();
     tableRange.format.autofitRows();
 
@@ -242,6 +269,9 @@ async function writeEventsToSheet(events) {
 // </WriteToSheetSnippet>
 
 // <GetCalendarSnippet>
+/**
+ * @param {{ preventDefault: () => void; }} evt
+ */
 async function getCalendar(evt) {
   evt.preventDefault();
   toggleOverlay(true);
@@ -263,7 +293,7 @@ async function getCalendar(evt) {
 
     if (response.ok) {
       const events = await response.json();
-      writeEventsToSheet(events);
+      if (events.length > 0) writeEventsToSheet(events);
       showStatus(`Imported ${events.length} events`, false);
     } else {
       const error = await response.json();
@@ -273,12 +303,15 @@ async function getCalendar(evt) {
     toggleOverlay(false);
   } catch (err) {
     console.log(`Error: ${JSON.stringify(err)}`);
-    showStatus(`Exception getting events from calendar: ${JSON.stringify(error)}`, true);
+    showStatus(`Exception getting events from calendar: ${JSON.stringify(err)}`, true);
   }
 }
 // </GetCalendarSnippet>
 
 // <CreateEventSnippet>
+/**
+ * @param {{ preventDefault: () => void; }} evt
+ */
 async function createEvent(evt) {
   evt.preventDefault();
   toggleOverlay(true);

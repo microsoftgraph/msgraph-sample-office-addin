@@ -12,8 +12,8 @@ const authRouter = Router();
 // Initialize an MSAL confidential client
 const msalClient = new msal.ConfidentialClientApplication({
   auth: {
-    clientId: process.env.AZURE_APP_ID!,
-    clientSecret: process.env.AZURE_CLIENT_SECRET!
+    clientId: process.env.AZURE_APP_ID || '',
+    clientSecret: process.env.AZURE_CLIENT_SECRET || ''
   }
 });
 
@@ -24,11 +24,11 @@ const keyClient = jwksClient({
 // Parses the JWT header and retrieves the appropriate public key
 function getSigningKey(header: JwtHeader, callback: SigningKeyCallback): void {
   if (header) {
-    keyClient.getSigningKey(header.kid!, (err, key) => {
+    keyClient.getSigningKey(header.kid || '', (err, key) => {
       if (err) {
         callback(err, undefined);
       } else {
-        callback(null, key.getPublicKey());
+        callback(null, key?.getPublicKey());
       }
     });
   }
@@ -36,7 +36,7 @@ function getSigningKey(header: JwtHeader, callback: SigningKeyCallback): void {
 
 // Validates a JWT and returns it if valid
 async function validateJwt(authHeader: string): Promise<string | null> {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const token = authHeader.split(' ')[1];
 
     // Ensure that the audience matches the app ID
@@ -45,7 +45,7 @@ async function validateJwt(authHeader: string): Promise<string | null> {
       audience: process.env.AZURE_APP_ID
     };
 
-    jwt.verify(token, getSigningKey, validationOptions, (err, payload) => {
+    jwt.verify(token, getSigningKey, validationOptions, (err) => {
       if (err) {
         console.log(`Verify error: ${JSON.stringify(err)}`);
         resolve(null);
@@ -103,6 +103,7 @@ authRouter.get('/status',
       } catch (error) {
         // Respond that consent is required if the error indicates,
         // otherwise return the error.
+        // @ts-ignore
         const payload = error.name === 'InteractionRequiredAuthError' ?
           { status: 'consent_required' } :
           { status: 'error', error: error};

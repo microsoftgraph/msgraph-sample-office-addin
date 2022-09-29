@@ -4,6 +4,14 @@
 // <ConsentJsSnippet>
 'use strict';
 
+// @ts-ignore
+var authConfig = authConfig || {};
+
+// @ts-ignore
+var msal = msal || {
+  PublicClientApplication: () => {throw new Error('MSAL not loaded');},
+};
+
 const msalClient = new msal.PublicClientApplication({
   auth: {
     clientId: authConfig.clientId
@@ -18,6 +26,9 @@ const msalRequest = {
 
 // Function that handles the redirect back to this page
 // once the user has signed in and granted consent
+/**
+ * @param {{ account: { homeId: string; }; accessToken: any; } | null} response
+ */
 function handleResponse(response) {
   localStorage.removeItem('msalCallbackExpected');
   if (response !== null) {
@@ -32,7 +43,7 @@ Office.initialize = function () {
     // caused this page to load.
     msalClient.handleRedirectPromise()
       .then(handleResponse)
-      .catch((error) => {
+      .catch((/** @type {any} */ error) => {
         console.log(error);
         Office.context.ui.messageParent(JSON.stringify({ status: 'failure', result: error }));
       });
@@ -54,5 +65,5 @@ Office.initialize = function () {
       }
     }
   }
-}
+};
 // </ConsentJsSnippet>

@@ -26,8 +26,8 @@ app.use('/auth', authRouter);
 app.use('/graph', graphRouter);
 
 const serverOptions = {
-  key: fs.readFileSync(process.env.TLS_KEY_PATH!),
-  cert: fs.readFileSync(process.env.TLS_CERT_PATH!),
+  key: fs.readFileSync(process.env.TLS_KEY_PATH || ''),
+  cert: fs.readFileSync(process.env.TLS_CERT_PATH || ''),
 };
 
 https.createServer(serverOptions, app).listen(PORT, () => {

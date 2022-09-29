@@ -28,6 +28,9 @@
     "@types/node": "^18.7.16",
     "@types/node-fetch": "^2.6.2",
     "@types/office-js": "^1.0.276",
+    "@typescript-eslint/eslint-plugin": "^5.38.1",
+    "@typescript-eslint/parser": "^5.38.1",
+    "eslint": "^8.24.0",
     "jasmine-core": "^4.4.0",
     "karma": "^6.4.0",
     "karma-chrome-launcher": "^3.1.1",
@@ -42,6 +45,7 @@
   },
   "scripts": {
     "start": "nodemon ./src/server.ts",
-    "build": "tsc --project ./"
+    "build": "tsc --project ./",
+    "lint": "npx eslint ./src --ext .js,.ts"
   }
 }

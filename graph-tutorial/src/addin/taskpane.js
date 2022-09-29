@@ -83,7 +83,7 @@ function showConsentUi() {
     class: 'primary-button',
     text: 'Give permission'
   }).on('click', showConsentPopup)
-  .appendTo('.container');
+    .appendTo('.container');
 }
 
 // Display a status
@@ -131,28 +131,28 @@ function showMainUi() {
 
   // Create the import form
   $('<form/>').on('submit', getCalendar)
-  .append($('<label/>', {
-    class: 'ms-fontSize-16 ms-fontWeight-semibold',
-    text: 'Start'
-  })).append($('<input/>', {
-    class: 'form-input',
-    type: 'date',
-    value: startOfWeek.toISODate(),
-    id: 'viewStart'
-  })).append($('<label/>', {
-    class: 'ms-fontSize-16 ms-fontWeight-semibold',
-    text: 'End'
-  })).append($('<input/>', {
-    class: 'form-input',
-    type: 'date',
-    value: endOfWeek.toISODate(),
-    id: 'viewEnd'
-  })).append($('<input/>', {
-    class: 'primary-button',
-    type: 'submit',
-    id: 'importButton',
-    value: 'Import'
-  })).appendTo('.container');
+    .append($('<label/>', {
+      class: 'ms-fontSize-16 ms-fontWeight-semibold',
+      text: 'Start'
+    })).append($('<input/>', {
+      class: 'form-input',
+      type: 'date',
+      value: startOfWeek.toISODate(),
+      id: 'viewStart'
+    })).append($('<label/>', {
+      class: 'ms-fontSize-16 ms-fontWeight-semibold',
+      text: 'End'
+    })).append($('<input/>', {
+      class: 'form-input',
+      type: 'date',
+      value: endOfWeek.toISODate(),
+      id: 'viewEnd'
+    })).append($('<input/>', {
+      class: 'primary-button',
+      type: 'submit',
+      id: 'importButton',
+      value: 'Import'
+    })).appendTo('.container');
 
   $('<hr/>').appendTo('.container');
 
@@ -163,36 +163,36 @@ function showMainUi() {
 
   // Create the new event form
   $('<form/>').on('submit', createEvent)
-  .append($('<label/>', {
-    class: 'ms-fontSize-16 ms-fontWeight-semibold',
-    text: 'Subject'
-  })).append($('<input/>', {
-    class: 'form-input',
-    type: 'text',
-    required: true,
-    id: 'eventSubject'
-  })).append($('<label/>', {
-    class: 'ms-fontSize-16 ms-fontWeight-semibold',
-    text: 'Start'
-  })).append($('<input/>', {
-    class: 'form-input',
-    type: 'datetime-local',
-    required: true,
-    id: 'eventStart'
-  })).append($('<label/>', {
-    class: 'ms-fontSize-16 ms-fontWeight-semibold',
-    text: 'End'
-  })).append($('<input/>', {
-    class: 'form-input',
-    type: 'datetime-local',
-    required: true,
-    id: 'eventEnd'
-  })).append($('<input/>', {
-    class: 'primary-button',
-    type: 'submit',
-    id: 'importButton',
-    value: 'Create'
-  })).appendTo('.container');
+    .append($('<label/>', {
+      class: 'ms-fontSize-16 ms-fontWeight-semibold',
+      text: 'Subject'
+    })).append($('<input/>', {
+      class: 'form-input',
+      type: 'text',
+      required: true,
+      id: 'eventSubject'
+    })).append($('<label/>', {
+      class: 'ms-fontSize-16 ms-fontWeight-semibold',
+      text: 'Start'
+    })).append($('<input/>', {
+      class: 'form-input',
+      type: 'datetime-local',
+      required: true,
+      id: 'eventStart'
+    })).append($('<label/>', {
+      class: 'ms-fontSize-16 ms-fontWeight-semibold',
+      text: 'End'
+    })).append($('<input/>', {
+      class: 'form-input',
+      type: 'datetime-local',
+      required: true,
+      id: 'eventEnd'
+    })).append($('<input/>', {
+      class: 'primary-button',
+      type: 'submit',
+      id: 'importButton',
+      value: 'Create'
+    })).appendTo('.container');
 }
 // </MainUiSnippet>
 
@@ -254,7 +254,7 @@ async function writeEventsToSheet(events) {
     eventsTable.rows.add(undefined, data);
 
     const tableRange = eventsTable.getRange();
-    tableRange.numberFormat = [["[$-409]m/d/yy h:mm AM/PM;@"]];
+    tableRange.numberFormat = [['[$-409]m/d/yy h:mm AM/PM;@']];
     tableRange.format.autofitColumns();
     tableRange.format.autofitRows();
 

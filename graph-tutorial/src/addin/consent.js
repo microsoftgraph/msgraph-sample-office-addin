@@ -5,6 +5,9 @@
 'use strict';
 
 // @ts-ignore
+var authConfig = authConfig || {};
+
+// @ts-ignore
 var msal = msal || {
   PublicClientApplication: () => {throw new Error('MSAL not loaded');},
 };
@@ -62,5 +65,5 @@ Office.initialize = function () {
       }
     }
   }
-}
+};
 // </ConsentJsSnippet>

@@ -17,7 +17,7 @@ async function getAuthenticatedClient(authHeader: string): Promise<graph.Client>
     authProvider: (done) => {
       // Call the callback with the
       // access token
-      done(null, accessToken!);
+      done(null, accessToken || '');
     }
   });
 }
@@ -41,12 +41,12 @@ async function getTimeZones(client: graph.Client): Promise<TimeZones> {
 
   // Time zone from Graph can be in IANA format or a
   // Windows time zone name. If Windows, convert to IANA
-  const ianaTzs = findIana(settings.timeZone!)
+  const ianaTzs = findIana(settings.timeZone || '');
   const ianaTz = ianaTzs ? ianaTzs[0] : null;
 
   const returnValue: TimeZones = {
-    graph: settings.timeZone!,
-    iana: ianaTz ?? settings.timeZone!
+    graph: settings.timeZone || '',
+    iana: ianaTz ?? settings.timeZone ?? ''
   };
 
   return returnValue;
@@ -70,8 +70,8 @@ graphRouter.get('/calendarview',
         const timeZones = await getTimeZones(client);
 
         // Convert the start and end times into UTC from the user's time zone
-        const utcViewStart = zonedTimeToUtc(viewStart!, timeZones.iana);
-        const utcViewEnd = zonedTimeToUtc(viewEnd!, timeZones.iana);
+        const utcViewStart = zonedTimeToUtc(viewStart || '', timeZones.iana);
+        const utcViewEnd = zonedTimeToUtc(viewEnd || '', timeZones.iana);
 
         // GET events in the specified window of time
         const eventPage: graph.PageCollection = await client
@@ -92,7 +92,7 @@ graphRouter.get('/calendarview',
           .top(25)
           .get();
 
-        const events: any[] = [];
+        const events: Event[] = [];
 
         // Set up a PageIterator to process the events in the result
         // and request subsequent "pages" if there are more than 25

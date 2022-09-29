@@ -3,5 +3,15 @@
     "addin",
     "jwks",
     "luxon"
+  ],
+  "cSpell.words": [
+    "autofit",
+    "calendarview",
+    "codepaths",
+    "datetime",
+    "msal",
+    "newevent",
+    "nocheck",
+    "tsbuildinfo"
   ]
 }

@@ -14,7 +14,7 @@
     "express-promise-router": "^4.1.1",
     "isomorphic-fetch": "^3.0.0",
     "jsonwebtoken": "^8.5.1",
-    "jwks-rsa": "^2.1.4",
+    "jwks-rsa": "^2.1.5",
     "node-fetch": "^3.2.10",
     "windows-iana": "^5.1.0"
   },

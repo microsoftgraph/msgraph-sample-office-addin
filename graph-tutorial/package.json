@@ -15,7 +15,7 @@
     "isomorphic-fetch": "^3.0.0",
     "jsonwebtoken": "^8.5.1",
     "jwks-rsa": "^2.1.5",
-    "node-fetch": "^3.2.10",
+    "node-fetch": "^3.3.0",
     "windows-iana": "^5.1.0"
   },
   "devDependencies": {

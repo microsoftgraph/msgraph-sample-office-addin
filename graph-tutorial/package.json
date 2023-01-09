@@ -27,7 +27,7 @@
     "@types/microsoft-graph": "^2.24.0",
     "@types/node": "^18.11.18",
     "@types/node-fetch": "^2.6.2",
-    "@types/office-js": "^1.0.309",
+    "@types/office-js": "^1.0.310",
     "@typescript-eslint/eslint-plugin": "^5.47.1",
     "@typescript-eslint/parser": "^5.47.1",
     "eslint": "^8.31.0",

@@ -325,10 +325,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.18.tgz#8dfb97f0da23c2293e554c5a50d61ef134d7697f"
   integrity sha512-DHQpWGjyQKSHj3ebjFI/wRKcqQcdR+MoFBygntYOZytCqNfkd2ZC4ARDJ2DQqhjH5p85Nnd3jhUJIXrszFX/JA==
 
-"@types/office-js@^1.0.309":
-  version "1.0.309"
-  resolved "https://registry.yarnpkg.com/@types/office-js/-/office-js-1.0.309.tgz#ba9e3801fd0347d94c3f7ffbdfaf0aef1d071603"
-  integrity sha512-KP1K2Zy7G+vDAwmFrDA0j/wWI6QVdCvnIuJCPsrGmZKdlg+wJBBRxmudnw/BPBLLYukhSFsEeJc0l/mU3wT+JA==
+"@types/office-js@^1.0.310":
+  version "1.0.310"
+  resolved "https://registry.yarnpkg.com/@types/office-js/-/office-js-1.0.310.tgz#24093c8fb55d7253faca806968e8d885b173b344"
+  integrity sha512-8HA98tVZx9EgOz/jAYtx9Dvro8eAHmqCga85Wl/VLMqldYAPgk+W8vvL3MNN6iNGCuGPOeR6psoPoieN7zZX8A==
 
 "@types/qs@*":
   version "6.9.7"

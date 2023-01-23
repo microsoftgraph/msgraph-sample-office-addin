@@ -28,7 +28,7 @@
     "@types/node": "^18.11.18",
     "@types/node-fetch": "^2.6.2",
     "@types/office-js": "^1.0.311",
-    "@typescript-eslint/eslint-plugin": "^5.48.0",
+    "@typescript-eslint/eslint-plugin": "^5.48.2",
     "@typescript-eslint/parser": "^5.48.0",
     "eslint": "^8.32.0",
     "jasmine-core": "^4.5.0",

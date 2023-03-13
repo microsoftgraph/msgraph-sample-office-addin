@@ -30,7 +30,7 @@
     "@types/office-js": "^1.0.318",
     "@typescript-eslint/eslint-plugin": "^5.48.2",
     "@typescript-eslint/parser": "^5.54.0",
-    "eslint": "^8.35.0",
+    "eslint": "^8.36.0",
     "jasmine-core": "^4.5.0",
     "karma": "^6.4.0",
     "karma-chrome-launcher": "^3.1.1",

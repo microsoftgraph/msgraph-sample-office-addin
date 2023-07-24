@@ -340,10 +340,10 @@
     "@types/node" "*"
     form-data "^3.0.0"
 
-"@types/node@*", "@types/node@>=10.0.0", "@types/node@^18.15.1":
-  version "18.15.1"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.15.1.tgz#41dc2bf78e8085a250d4670d95edb7fba621dd29"
-  integrity sha512-U2TWca8AeHSmbpi314QBESRk7oPjSZjDsR+c+H4ECC1l+kFgpZf8Ydhv3SJpPy51VyZHHqxlb6mTTqYNNRVAIw==
+"@types/node@*", "@types/node@>=10.0.0", "@types/node@^20.4.4":
+  version "20.4.4"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.4.4.tgz#c79c7cc22c9d0e97a7944954c9e663bcbd92b0cb"
+  integrity sha512-CukZhumInROvLq3+b5gLev+vgpsIqC2D0deQr/yS1WnxvmYLlJXZpaQrQiseMY+6xusl79E04UjWoqyr+t1/Ew==
 
 "@types/office-js@^1.0.318":
   version "1.0.318"

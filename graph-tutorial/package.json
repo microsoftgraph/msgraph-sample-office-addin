@@ -41,7 +41,7 @@
     "ts-node": "^10.9.1",
     "typescript": "^5.1.6",
     "webpack": "^5.83.1",
-    "webpack-dev-server": "^4.13.3"
+    "webpack-dev-server": "^4.15.1"
   },
   "scripts": {
     "start": "nodemon ./src/server.ts",

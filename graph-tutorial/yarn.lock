@@ -350,10 +350,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-20.8.0.tgz#10ddf0119cf20028781c06d7115562934e53f745"
   integrity sha512-LzcWltT83s1bthcvjBmiBvGJiiUe84NWRHkw+ZV6Fr41z2FbIzvc815dk2nQ3RAKMuN2fkenM/z3Xv2QzEpYxQ==
 
-"@types/office-js@^1.0.344":
-  version "1.0.344"
-  resolved "https://registry.yarnpkg.com/@types/office-js/-/office-js-1.0.344.tgz#4288a20e4fb4b905a81f61e23650273e778f476b"
-  integrity sha512-BYOvioBTLUcLrCp2eDDiDZ818dEnZwKeP6gpql3ulufM7b4HcrPRwoxZ86Xjzy6WPVZDX5MFauXTKwhNO4+2MA==
+"@types/office-js@^1.0.347":
+  version "1.0.347"
+  resolved "https://registry.yarnpkg.com/@types/office-js/-/office-js-1.0.347.tgz#0ddc3c9ce8455f8b931fff2a27f8f47af5a3ff9e"
+  integrity sha512-Abuhb92HqJGmqC79qOx+H9cMgEsi2KeKjk+b8u0AJIRaZckqaE2FrnaeUDLsgiFWjs9Zd/xbJcjFlv5XTGUFag==
 
 "@types/qs@*":
   version "6.9.8"

@@ -322,10 +322,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/microsoft-graph@^2.38.0":
-  version "2.38.0"
-  resolved "https://registry.yarnpkg.com/@types/microsoft-graph/-/microsoft-graph-2.38.0.tgz#49511f8578f3a4aa4d4c36625000bbb683e25bcd"
-  integrity sha512-NnEMa4VTnrkiZXGvxOZlSynIgaBY6MIfKI8pAicHyGHXzVZ06rNg17aHiwsahMo0UE/4+YgZvt5X1dh7LjbIBg==
+"@types/microsoft-graph@^2.38.1":
+  version "2.38.1"
+  resolved "https://registry.yarnpkg.com/@types/microsoft-graph/-/microsoft-graph-2.38.1.tgz#ecadbb12f0a43b049006c5db78fc6064a2502c03"
+  integrity sha512-Yf/gtkiDF87O/dmrmJh7E3wcoSYH9yQyFPDHJ6TQprkizY3ga8avgR5YtEFu+NuMz+D1mvulV0+5bVkPtr+XTg==
 
 "@types/mime@*":
   version "3.0.1"

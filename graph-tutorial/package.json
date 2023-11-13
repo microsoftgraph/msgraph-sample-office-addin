@@ -26,7 +26,7 @@
     "@types/jsonwebtoken": "^9.0.5",
     "@types/microsoft-graph": "^2.38.1",
     "@types/node": "^20.8.10",
-    "@types/node-fetch": "^2.6.6",
+    "@types/node-fetch": "^2.6.9",
     "@types/office-js": "^1.0.355",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",

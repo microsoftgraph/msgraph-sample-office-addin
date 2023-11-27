@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.20",
-    "@types/isomorphic-fetch": "^0.0.38",
+    "@types/isomorphic-fetch": "^0.0.39",
     "@types/jasmine": "^4.3.6",
     "@types/jquery": "^3.5.29",
     "@types/jsonwebtoken": "^9.0.5",

@@ -19,7 +19,7 @@
     "windows-iana": "^5.1.0"
   },
   "devDependencies": {
-    "@types/express": "^4.17.20",
+    "@types/express": "^4.17.21",
     "@types/isomorphic-fetch": "^0.0.39",
     "@types/jasmine": "^4.3.6",
     "@types/jquery": "^3.5.29",

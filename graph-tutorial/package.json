@@ -24,7 +24,7 @@
     "@types/jasmine": "^4.3.6",
     "@types/jquery": "^3.5.29",
     "@types/jsonwebtoken": "^9.0.5",
-    "@types/microsoft-graph": "^2.38.1",
+    "@types/microsoft-graph": "^2.40.0",
     "@types/node": "^20.10.0",
     "@types/node-fetch": "^2.6.9",
     "@types/office-js": "^1.0.360",

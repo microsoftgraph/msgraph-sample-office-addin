@@ -352,10 +352,10 @@
   dependencies:
     undici-types "~5.26.4"
 
-"@types/office-js@^1.0.360":
-  version "1.0.360"
-  resolved "https://registry.yarnpkg.com/@types/office-js/-/office-js-1.0.360.tgz#cbd71ab43d070edb7b236dc24cc9ac0893bc7126"
-  integrity sha512-Mf5JGQJeMbQ1mZHXT9+ZsCNKU6DT9AcXBKXd1vTnqqfsaWy7xngwhoXIfcJ7a/wwUBbRtO/lfLuUm2axnm5oeQ==
+"@types/office-js@^1.0.361":
+  version "1.0.361"
+  resolved "https://registry.yarnpkg.com/@types/office-js/-/office-js-1.0.361.tgz#2783ea1753fd2d8c38b4efad8026672e9d53d3e5"
+  integrity sha512-nfZ/1Qrx1o+B3pb+6CYaBfsrdRz7Y0GIwyQgaoBN1A9JR+zzdxBx5mMgPGwvmssnto+YHUUaVSLDbRuX1YdL6g==
 
 "@types/qs@*":
   version "6.9.8"

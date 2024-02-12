@@ -35,7 +35,7 @@
     "karma": "^6.4.2",
     "karma-chrome-launcher": "^3.2.0",
     "karma-jasmine": "^5.1.0",
-    "karma-webpack": "^5.0.0",
+    "karma-webpack": "^5.0.1",
     "nodemon": "^2.0.22",
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.2",

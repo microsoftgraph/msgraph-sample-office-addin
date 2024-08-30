@@ -1,18 +1,21 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
+
+/* global authConfig, localStorage, Office */
 
 // <ConsentJsSnippet>
 'use strict';
 
 // @ts-ignore
 var msal = msal || {
-  PublicClientApplication: () => {throw new Error('MSAL not loaded');},
+  PublicClientApplication: () => {
+    throw new Error('MSAL not loaded');
+  },
 };
 
-const msalClient = new msal.PublicClientApplication({
+const msalClient = msal.PublicClientApplication({
   auth: {
-    // authConfig is defined in config.js, but eslint doesn't understand that
-    // eslint-disable-next-line no-undef
+    // authConfig is defined in config.js
     // @ts-ignore
     clientId: authConfig.clientId,
     navigateToLoginRequestUrl: false,
@@ -20,13 +23,11 @@ const msalClient = new msal.PublicClientApplication({
   cache: {
     cacheLocation: 'localStorage',
     storeAuthStateInCookie: true,
-  }
+  },
 });
 
 const msalRequest = {
-  scopes: [
-    'https://graph.microsoft.com/.default'
-  ]
+  scopes: ['https://graph.microsoft.com/.default'],
 };
 
 // Function that handles the redirect back to this page
@@ -38,7 +39,9 @@ function handleResponse(response) {
   localStorage.removeItem('msalCallbackExpected');
   if (response !== null) {
     localStorage.setItem('msalAccountId', response.account.homeId);
-    Office.context.ui.messageParent(JSON.stringify({ status: 'success', result: response.accessToken }));
+    Office.context.ui.messageParent(
+      JSON.stringify({ status: 'success', result: response.accessToken }),
+    );
   }
 }
 
@@ -46,11 +49,14 @@ Office.onReady(() => {
   if (Office.context.ui.messageParent) {
     // Let MSAL process a redirect response if that's what
     // caused this page to load.
-    msalClient.handleRedirectPromise()
+    msalClient
+      .handleRedirectPromise()
       .then(handleResponse)
       .catch((/** @type {any} */ error) => {
         console.log(error);
-        Office.context.ui.messageParent(JSON.stringify({ status: 'failure', result: error }));
+        Office.context.ui.messageParent(
+          JSON.stringify({ status: 'failure', result: error }),
+        );
       });
 
     // If we're not expecting a callback (because this is

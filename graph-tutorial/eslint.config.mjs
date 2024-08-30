@@ -11,12 +11,12 @@ header.rules.header.meta.schema = false;
 
 export default [
   {
-    ignores: ['**/out'],
+    ignores: ['**/dist'],
   },
   js.configs.recommended,
   eslintPrettierRecommended,
   {
-    files: ['**.{ts,js,mjs}'],
+    files: ['**/**.{ts,js,mjs}'],
 
     languageOptions: {
       globals: {

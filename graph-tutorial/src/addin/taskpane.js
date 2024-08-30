@@ -1,5 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
+
+/* global location, Office, Excel, $ */
 
 // <AuthUiSnippet>
 // Handle to authentication pop dialog
@@ -9,15 +11,31 @@
 let authDialog = undefined;
 
 // @ts-ignore
-var luxon = luxon || { DateTime: { local: () => {throw new Error('luxon not loaded');}}};
+var luxon = luxon || {
+  DateTime: {
+    local: () => {
+      throw new Error('luxon not loaded');
+    },
+  },
+};
 
 // @ts-ignore
-var OfficeRuntime = OfficeRuntime || { auth: { getAccessToken: () => {throw new Error('office.js not loaded');}}};
+var OfficeRuntime = OfficeRuntime || {
+  auth: {
+    getAccessToken: () => {
+      throw new Error('office.js not loaded');
+    },
+  },
+};
 
 // Build a base URL from the current location
 function getBaseUrl() {
-  return location.protocol + '//' + location.hostname +
-  (location.port ? ':' + location.port : '');
+  return (
+    location.protocol +
+    '//' +
+    location.hostname +
+    (location.port ? ':' + location.port : '')
+  );
 }
 
 // Process the response back from the auth dialog
@@ -32,7 +50,10 @@ function processConsent(result) {
   if (message.status === 'success') {
     showMainUi();
   } else {
-    const error = JSON.stringify(message.result, Object.getOwnPropertyNames(message.result));
+    const error = JSON.stringify(
+      message.result,
+      Object.getOwnPropertyNames(message.result),
+    );
     showStatus(`An error was returned from the consent dialog: ${error}`, true);
   }
 }
@@ -42,22 +63,30 @@ function processConsent(result) {
 function showConsentPopup() {
   const authDialogUrl = `${getBaseUrl()}/consent.html`;
 
-  Office.context.ui.displayDialogAsync(authDialogUrl,
+  Office.context.ui.displayDialogAsync(
+    authDialogUrl,
     {
       height: 60,
       width: 30,
-      promptBeforeOpen: false
+      promptBeforeOpen: false,
     },
     (result) => {
       if (result.status === Office.AsyncResultStatus.Succeeded) {
         authDialog = result.value;
-        authDialog.addEventHandler(Office.EventType.DialogMessageReceived, processConsent);
+        authDialog.addEventHandler(
+          Office.EventType.DialogMessageReceived,
+          processConsent,
+        );
       } else {
         // Display error
-        const error = JSON.stringify(result.error, Object.getOwnPropertyNames(result.error));
+        const error = JSON.stringify(
+          result.error,
+          Object.getOwnPropertyNames(result.error),
+        );
         showStatus(`Could not open consent prompt dialog: ${error}`, true);
       }
-    });
+    },
+  );
 }
 
 // Inform the user we need to get their consent
@@ -65,24 +94,25 @@ function showConsentUi() {
   $('.container').empty();
   $('<p/>', {
     class: 'ms-fontSize-24 ms-fontWeight-bold',
-    text: 'Consent for Microsoft Graph access needed'
+    text: 'Consent for Microsoft Graph access needed',
   }).appendTo('.container');
   $('<p/>', {
     class: 'ms-fontSize-16 ms-fontWeight-regular',
-    text: 'In order to access your calendar, we need to get your permission to access the Microsoft Graph.'
+    text: 'In order to access your calendar, we need to get your permission to access the Microsoft Graph.',
   }).appendTo('.container');
   $('<p/>', {
     class: 'ms-fontSize-16 ms-fontWeight-regular',
-    text: 'We only need to do this once, unless you revoke your permission.'
+    text: 'We only need to do this once, unless you revoke your permission.',
   }).appendTo('.container');
   $('<p/>', {
     class: 'ms-fontSize-16 ms-fontWeight-regular',
-    text: 'Please click or tap the button below to give permission (opens a popup window).'
+    text: 'Please click or tap the button below to give permission (opens a popup window).',
   }).appendTo('.container');
   $('<button/>', {
     class: 'primary-button',
-    text: 'Give permission'
-  }).on('click', showConsentPopup)
+    text: 'Give permission',
+  })
+    .on('click', showConsentPopup)
     .appendTo('.container');
 }
 
@@ -94,14 +124,21 @@ function showConsentUi() {
 function showStatus(message, isError) {
   $('.status').empty();
   $('<div/>', {
-    class: `status-card ms-depth-4 ${isError ? 'error-msg' : 'success-msg'}`
-  }).append($('<p/>', {
-    class: 'ms-fontSize-24 ms-fontWeight-bold',
-    text: isError ? 'An error occurred' : 'Success'
-  })).append($('<p/>', {
-    class: 'ms-fontSize-16 ms-fontWeight-regular',
-    text: message
-  })).appendTo('.status');
+    class: `status-card ms-depth-4 ${isError ? 'error-msg' : 'success-msg'}`,
+  })
+    .append(
+      $('<p/>', {
+        class: 'ms-fontSize-24 ms-fontWeight-bold',
+        text: isError ? 'An error occurred' : 'Success',
+      }),
+    )
+    .append(
+      $('<p/>', {
+        class: 'ms-fontSize-16 ms-fontWeight-regular',
+        text: message,
+      }),
+    )
+    .appendTo('.status');
 }
 
 /**
@@ -126,73 +163,111 @@ function showMainUi() {
 
   $('<h2/>', {
     class: 'ms-fontSize-24 ms-fontWeight-semibold',
-    text: 'Select a date range to import'
+    text: 'Select a date range to import',
   }).appendTo('.container');
 
   // Create the import form
-  $('<form/>').on('submit', getCalendar)
-    .append($('<label/>', {
-      class: 'ms-fontSize-16 ms-fontWeight-semibold',
-      text: 'Start'
-    })).append($('<input/>', {
-      class: 'form-input',
-      type: 'date',
-      value: startOfWeek.toISODate(),
-      id: 'viewStart'
-    })).append($('<label/>', {
-      class: 'ms-fontSize-16 ms-fontWeight-semibold',
-      text: 'End'
-    })).append($('<input/>', {
-      class: 'form-input',
-      type: 'date',
-      value: endOfWeek.toISODate(),
-      id: 'viewEnd'
-    })).append($('<input/>', {
-      class: 'primary-button',
-      type: 'submit',
-      id: 'importButton',
-      value: 'Import'
-    })).appendTo('.container');
+  $('<form/>')
+    .on('submit', getCalendar)
+    .append(
+      $('<label/>', {
+        class: 'ms-fontSize-16 ms-fontWeight-semibold',
+        text: 'Start',
+      }),
+    )
+    .append(
+      $('<input/>', {
+        class: 'form-input',
+        type: 'date',
+        value: startOfWeek.toISODate(),
+        id: 'viewStart',
+      }),
+    )
+    .append(
+      $('<label/>', {
+        class: 'ms-fontSize-16 ms-fontWeight-semibold',
+        text: 'End',
+      }),
+    )
+    .append(
+      $('<input/>', {
+        class: 'form-input',
+        type: 'date',
+        value: endOfWeek.toISODate(),
+        id: 'viewEnd',
+      }),
+    )
+    .append(
+      $('<input/>', {
+        class: 'primary-button',
+        type: 'submit',
+        id: 'importButton',
+        value: 'Import',
+      }),
+    )
+    .appendTo('.container');
 
   $('<hr/>').appendTo('.container');
 
   $('<h2/>', {
     class: 'ms-fontSize-24 ms-fontWeight-semibold',
-    text: 'Add event to calendar'
+    text: 'Add event to calendar',
   }).appendTo('.container');
 
   // Create the new event form
-  $('<form/>').on('submit', createEvent)
-    .append($('<label/>', {
-      class: 'ms-fontSize-16 ms-fontWeight-semibold',
-      text: 'Subject'
-    })).append($('<input/>', {
-      class: 'form-input',
-      type: 'text',
-      required: true,
-      id: 'eventSubject'
-    })).append($('<label/>', {
-      class: 'ms-fontSize-16 ms-fontWeight-semibold',
-      text: 'Start'
-    })).append($('<input/>', {
-      class: 'form-input',
-      type: 'datetime-local',
-      required: true,
-      id: 'eventStart'
-    })).append($('<label/>', {
-      class: 'ms-fontSize-16 ms-fontWeight-semibold',
-      text: 'End'
-    })).append($('<input/>', {
-      class: 'form-input',
-      type: 'datetime-local',
-      required: true,
-      id: 'eventEnd'
-    })).append($('<input/>', {
-      class: 'primary-button',
-      type: 'submit',
-      id: 'importButton',
-      value: 'Create'
-    })).appendTo('.container');
+  $('<form/>')
+    .on('submit', createEvent)
+    .append(
+      $('<label/>', {
+        class: 'ms-fontSize-16 ms-fontWeight-semibold',
+        text: 'Subject',
+      }),
+    )
+    .append(
+      $('<input/>', {
+        class: 'form-input',
+        type: 'text',
+        required: true,
+        id: 'eventSubject',
+      }),
+    )
+    .append(
+      $('<label/>', {
+        class: 'ms-fontSize-16 ms-fontWeight-semibold',
+        text: 'Start',
+      }),
+    )
+    .append(
+      $('<input/>', {
+        class: 'form-input',
+        type: 'datetime-local',
+        required: true,
+        id: 'eventStart',
+      }),
+    )
+    .append(
+      $('<label/>', {
+        class: 'ms-fontSize-16 ms-fontWeight-semibold',
+        text: 'End',
+      }),
+    )
+    .append(
+      $('<input/>', {
+        class: 'form-input',
+        type: 'datetime-local',
+        required: true,
+        id: 'eventEnd',
+      }),
+    )
+    .append(
+      $('<input/>', {
+        class: 'primary-button',
+        type: 'submit',
+        id: 'importButton',
+        value: 'Create',
+      }),
+    )
+    .appendTo('.container');
 }
 // </MainUiSnippet>
 
@@ -217,7 +292,8 @@ function convertDateToOAFormat(dateTime) {
 
   // Calculate the OLE Automation date, which is
   // the number of days since midnight, December 30, 1899
-  const oaDate = date.getTime() / DAY_MILLISECONDS + EXCEL_DATE_OFFSET - tzOffset;
+  const oaDate =
+    date.getTime() / DAY_MILLISECONDS + EXCEL_DATE_OFFSET - tzOffset;
   return oaDate;
 }
 
@@ -230,12 +306,9 @@ async function writeEventsToSheet(events) {
     const eventsTable = sheet.tables.add('A1:D1', true);
 
     // Create the header row
-    eventsTable.getHeaderRowRange().values = [[
-      'Subject',
-      'Organizer',
-      'Start',
-      'End'
-    ]];
+    eventsTable.getHeaderRowRange().values = [
+      ['Subject', 'Organizer', 'Start', 'End'],
+    ];
 
     // Create the data rows
     /**
@@ -247,7 +320,7 @@ async function writeEventsToSheet(events) {
         event.subject,
         event.organizer.emailAddress.name,
         convertDateToOAFormat(event.start.dateTime),
-        convertDateToOAFormat(event.end.dateTime)
+        convertDateToOAFormat(event.end.dateTime),
       ]);
     });
 
@@ -277,18 +350,19 @@ async function getCalendar(evt) {
   toggleOverlay(true);
 
   try {
-    const apiToken = await OfficeRuntime.auth.getAccessToken({ allowSignInPrompt: true });
+    const apiToken = await OfficeRuntime.auth.getAccessToken({
+      allowSignInPrompt: true,
+    });
 
     const viewStart = $('#viewStart').val();
     const viewEnd = $('#viewEnd').val();
 
-    const requestUrl =
-      `${getBaseUrl()}/graph/calendarview?viewStart=${viewStart}&viewEnd=${viewEnd}`;
+    const requestUrl = `${getBaseUrl()}/graph/calendarview?viewStart=${viewStart}&viewEnd=${viewEnd}`;
 
     const response = await fetch(requestUrl, {
       headers: {
-        authorization: `Bearer ${apiToken}`
-      }
+        authorization: `Bearer ${apiToken}`,
+      },
     });
 
     if (response.ok) {
@@ -297,13 +371,19 @@ async function getCalendar(evt) {
       showStatus(`Imported ${events.length} events`, false);
     } else {
       const error = await response.json();
-      showStatus(`Error getting events from calendar: ${JSON.stringify(error)}`, true);
+      showStatus(
+        `Error getting events from calendar: ${JSON.stringify(error)}`,
+        true,
+      );
     }
 
     toggleOverlay(false);
   } catch (err) {
     console.log(`Error: ${JSON.stringify(err)}`);
-    showStatus(`Exception getting events from calendar: ${JSON.stringify(err)}`, true);
+    showStatus(
+      `Exception getting events from calendar: ${JSON.stringify(err)}`,
+      true,
+    );
   }
 }
 // </GetCalendarSnippet>
@@ -316,12 +396,14 @@ async function createEvent(evt) {
   evt.preventDefault();
   toggleOverlay(true);
 
-  const apiToken = await OfficeRuntime.auth.getAccessToken({ allowSignInPrompt: true });
+  const apiToken = await OfficeRuntime.auth.getAccessToken({
+    allowSignInPrompt: true,
+  });
 
   const payload = {
     eventSubject: $('#eventSubject').val(),
     eventStart: $('#eventStart').val(),
-    eventEnd: $('#eventEnd').val()
+    eventEnd: $('#eventEnd').val(),
   };
 
   const requestUrl = `${getBaseUrl()}/graph/newevent`;
@@ -330,9 +412,9 @@ async function createEvent(evt) {
     method: 'POST',
     headers: {
       authorization: `Bearer ${apiToken}`,
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify(payload)
+    body: JSON.stringify(payload),
   });
 
   if (response.ok) {
@@ -347,13 +429,15 @@ async function createEvent(evt) {
 // </CreateEventSnippet>
 
 // <OfficeReadySnippet>
-Office.onReady(info => {
+Office.onReady((info) => {
   // Only run if we're inside Excel
   if (info.host === Office.HostType.Excel) {
-    $(async function() {
+    $(async function () {
       let apiToken = '';
       try {
-        apiToken = await OfficeRuntime.auth.getAccessToken({ allowSignInPrompt: true });
+        apiToken = await OfficeRuntime.auth.getAccessToken({
+          allowSignInPrompt: true,
+        });
         console.log(`API Token: ${apiToken}`);
       } catch (error) {
         console.log(`getAccessToken error: ${JSON.stringify(error)}`);
@@ -364,8 +448,8 @@ Office.onReady(info => {
       // Call auth status API to see if we need to get consent
       const authStatusResponse = await fetch(`${getBaseUrl()}/auth/status`, {
         headers: {
-          authorization: `Bearer ${apiToken}`
-        }
+          authorization: `Bearer ${apiToken}`,
+        },
       });
 
       const authStatus = await authStatusResponse.json();
@@ -374,8 +458,10 @@ Office.onReady(info => {
       } else {
         // report error
         if (authStatus.status === 'error') {
-          const error = JSON.stringify(authStatus.error,
-            Object.getOwnPropertyNames(authStatus.error));
+          const error = JSON.stringify(
+            authStatus.error,
+            Object.getOwnPropertyNames(authStatus.error),
+          );
           showStatus(`Error checking auth status: ${error}`, true);
         } else {
           showMainUi();

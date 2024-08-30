@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import Router from 'express-promise-router';
-import { zonedTimeToUtc } from 'date-fns-tz';
+import { fromZonedTime } from 'date-fns-tz';
 import { findIana } from 'windows-iana';
 import * as graph from '@microsoft/microsoft-graph-client';
 import { Event, MailboxSettings } from 'microsoft-graph';
@@ -70,8 +70,8 @@ graphRouter.get('/calendarview',
         const timeZones = await getTimeZones(client);
 
         // Convert the start and end times into UTC from the user's time zone
-        const utcViewStart = zonedTimeToUtc(viewStart || '', timeZones.iana);
-        const utcViewEnd = zonedTimeToUtc(viewEnd || '', timeZones.iana);
+        const utcViewStart =fromZonedTime(viewStart || '', timeZones.iana);
+        const utcViewEnd = fromZonedTime(viewEnd || '', timeZones.iana);
 
         // GET events in the specified window of time
         const eventPage: graph.PageCollection = await client

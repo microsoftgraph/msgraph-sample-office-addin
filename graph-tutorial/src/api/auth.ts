@@ -4,13 +4,14 @@
 import Router from 'express-promise-router';
 import jwt, { SigningKeyCallback, JwtHeader } from 'jsonwebtoken';
 import jwksClient from 'jwks-rsa';
-import * as msal from '@azure/msal-node';
+// @ts-ignore
+import { ConfidentialClientApplication } from '@azure/msal-node';
 
 const authRouter = Router();
 
 // <TokenExchangeSnippet>
 // Initialize an MSAL confidential client
-const msalClient = new msal.ConfidentialClientApplication({
+const msalClient = new ConfidentialClientApplication({
   auth: {
     clientId: process.env.AZURE_APP_ID || '',
     clientSecret: process.env.AZURE_CLIENT_SECRET || ''

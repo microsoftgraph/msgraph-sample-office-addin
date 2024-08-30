@@ -5,16 +5,21 @@
 'use strict';
 
 // @ts-ignore
-var authConfig = authConfig || {};
-
-// @ts-ignore
 var msal = msal || {
   PublicClientApplication: () => {throw new Error('MSAL not loaded');},
 };
 
 const msalClient = new msal.PublicClientApplication({
   auth: {
-    clientId: authConfig.clientId
+    // authConfig is defined in config.js, but eslint doesn't understand that
+    // eslint-disable-next-line no-undef
+    // @ts-ignore
+    clientId: authConfig.clientId,
+    navigateToLoginRequestUrl: false,
+  },
+  cache: {
+    cacheLocation: 'localStorage',
+    storeAuthStateInCookie: true,
   }
 });
 
@@ -37,7 +42,7 @@ function handleResponse(response) {
   }
 }
 
-Office.initialize = function () {
+Office.onReady(() => {
   if (Office.context.ui.messageParent) {
     // Let MSAL process a redirect response if that's what
     // caused this page to load.
@@ -65,5 +70,5 @@ Office.initialize = function () {
       }
     }
   }
-};
+});
 // </ConsentJsSnippet>

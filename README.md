@@ -19,7 +19,7 @@ This sample demonstrates how to use the Microsoft Graph JavaScript SDK to access
 
 To run the completed project in this folder, you need the following:
 
-- [Node.js](https://nodejs.org) and [Yarn](https://yarnpkg.com/) installed on your development machine. (**Note:** This tutorial was written with Node version 16.14.2 and Yarn version 1.22.19. The steps in this guide may work with other versions, but that has not been tested.)
+- [Node.js](https://nodejs.org) and [Yarn](https://yarnpkg.com/) installed on your development machine. (**Note:** This sample was written with Node version 16.14.2 and Yarn version 1.22.19. The steps in this guide may work with other versions, but that has not been tested.)
 - Either a personal Microsoft account with a mailbox on Outlook.com, or a Microsoft work or school account.
 
 If you don't have a Microsoft account, there are a couple of options to get a free account:
@@ -27,19 +27,19 @@ If you don't have a Microsoft account, there are a couple of options to get a fr
 - You can [sign up for a new personal Microsoft account](https://signup.live.com/signup?wa=wsignin1.0&rpsnv=12&ct=1454618383&rver=6.4.6456.0&wp=MBI_SSL_SHARED&wreply=https://mail.live.com/default.aspx&id=64855&cbcxt=mai&bk=1454618383&uiflavor=web&uaid=b213a65b4fdc484382b6622b3ecaa547&mkt=E-US&lc=1033&lic=1).
 - You can [sign up for the Microsoft 365 Developer Program](https://developer.microsoft.com/microsoft-365/dev-program) to get a free Microsoft 365 subscription.
 
-## Register a web application with the Azure Active Directory admin center
+## Register a web application with the Microsoft Entra admin center
 
-1. Open a browser and navigate to the [Azure Active Directory admin center](https://aad.portal.azure.com). Login using a **personal account** (aka: Microsoft Account) or **Work or School Account**.
+1. Open a browser and navigate to the [Microsoft Entra admin center](https://entra.microsoft.com). Login using a **Work or School Account**.
 
-1. Select **Azure Active Directory** in the left-hand navigation, then select **App registrations** under **Manage**.
+1. Select **Applications** in the left-hand navigation bar, then select **App registrations**.
 
 1. Select **New registration**. On the **Register an application** page, set the values as follows.
 
-    - Set **Name** to `Office Add-in Graph Tutorial`.
+    - Set **Name** to `Office Add-in Graph Sample`.
     - Set **Supported account types** to **Accounts in any organizational directory and personal Microsoft accounts**.
     - Under **Redirect URI**, set the first drop-down to `Single-page application (SPA)` and set the value to `https://localhost:3000/consent.html`.
 
-1. Select **Register**. On the **Office Add-in Graph Tutorial** page, copy the value of the **Application (client) ID** and save it, you will need it in the next step.
+1. Select **Register**. On the **Office Add-in Graph Sample** page, copy the value of the **Application (client) ID** and save it, you will need it in the next step.
 
 1. Select **Certificates & secrets** under **Manage**. Select the **New client secret** button. Enter a value in **Description** and select one of the options for **Expires** and select **Add**.
 
@@ -59,7 +59,7 @@ If you don't have a Microsoft account, there are a couple of options to get a fr
 
 ## Configure Office Add-in single sign-on
 
-Update the app registration to support [Office Add-in single sign-on (SSO)](https://docs.microsoft.com/office/dev/add-ins/develop/sso-in-office-add-ins).
+Update the app registration to support [Office Add-in single sign-on (SSO)](https://learn.microsoft.com/office/dev/add-ins/develop/sso-in-office-add-ins).
 
 1. Select **Expose an API**. In the **Scopes defined by this API** section, select **Add a scope**. When prompted to set an **Application ID URI**, set the value to `api://localhost:3000/YOUR_APP_ID_HERE`, replacing `YOUR_APP_ID_HERE` with the application ID. Choose **Save and continue**.
 
@@ -132,7 +132,9 @@ Update the app registration to support [Office Add-in single sign-on (SSO)](http
 
 1. In your browser, go to [Office.com](https://www.office.com/) and sign in. Select **Create** in the left-hand toolbar, then select **Workbook**.
 
-1. Select the **Insert** tab, then select **Office Add-ins**.
+1. Select the **Home** tab, then select **Add-ins**.
+
+1. Select **More Add-ins**, then select **My Add-ins**.
 
 1. Select **Upload My Add-in**, then select **Browse**. Upload your **manifest.xml** file.
 

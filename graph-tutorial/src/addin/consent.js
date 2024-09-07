@@ -13,7 +13,7 @@ var msal = msal || {
   },
 };
 
-const msalClient = msal.PublicClientApplication({
+const msalClient = new msal.PublicClientApplication({
   auth: {
     // authConfig is defined in config.js
     // @ts-ignore

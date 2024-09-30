@@ -5,7 +5,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "@azure/msal-node": "^2.6.4",
+    "@azure/msal-node": "^2.14.0",
     "@microsoft/microsoft-graph-client": "^3.0.7",
     "date-fns": "^3.6.0",
     "date-fns-tz": "^3.1.3",

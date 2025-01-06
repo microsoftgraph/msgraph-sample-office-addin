@@ -30,7 +30,7 @@
     "@types/office-js": "^1.0.453",
     "@typescript-eslint/eslint-plugin": "^8.18.2",
     "@typescript-eslint/parser": "^8.18.2",
-    "eslint": "^9.16.0",
+    "eslint": "^9.17.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-header": "^3.1.1",
     "eslint-plugin-prettier": "^5.2.1",

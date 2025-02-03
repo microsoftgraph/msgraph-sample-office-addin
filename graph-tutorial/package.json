@@ -23,7 +23,7 @@
     "@types/isomorphic-fetch": "^0.0.39",
     "@types/jasmine": "^5.1.5",
     "@types/jquery": "^3.5.32",
-    "@types/jsonwebtoken": "^9.0.7",
+    "@types/jsonwebtoken": "^9.0.8",
     "@types/microsoft-graph": "^2.40.0",
     "@types/node": "^20.11.17",
     "@types/node-fetch": "^2.6.12",
